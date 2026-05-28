@@ -1,0 +1,309 @@
+=== MODEL: Default ===
+FullPath: ReplicatedStorage.ClientAssets.Characters.Survivors.Blaze.Skins.Default
+
+=== BASE PARTS ===
+  [MeshPart] Hair1 | Trans=0.0 | Anch=false
+  [MeshPart] Hair2 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.003 | Trans=0.0 | Anch=false
+  [MeshPart] HairThing | Trans=0.0 | Anch=false
+  [MeshPart] Cube.012 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.001 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.002 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.007 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.008 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.009 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.010 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.024 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.023 | Trans=0.0 | Anch=false
+  [MeshPart] Torus | Trans=0.0 | Anch=false
+  [MeshPart] REye | Trans=0.0 | Anch=false
+  [MeshPart] LEye | Trans=0.0 | Anch=false
+  [MeshPart] RLeg2 | Trans=0.0 | Anch=false
+  [MeshPart] RLeg1 | Trans=0.0 | Anch=false
+  [MeshPart] RLeg3 | Trans=0.0 | Anch=false
+  [MeshPart] RFoot | Trans=0.0 | Anch=false
+  [MeshPart] LThumb1 | Trans=0.0 | Anch=false
+  [MeshPart] LIndex1 | Trans=0.0 | Anch=false
+  [MeshPart] LPinky2 | Trans=0.0 | Anch=false
+  [MeshPart] LIndex2 | Trans=0.0 | Anch=false
+  [MeshPart] LMiddle2 | Trans=0.0 | Anch=false
+  [MeshPart] LMiddle1 | Trans=0.0 | Anch=false
+  [MeshPart] Left Hand | Trans=0.0 | Anch=false
+  [MeshPart] LThumb2 | Trans=0.0 | Anch=false
+  [MeshPart] LPinky1 | Trans=0.0 | Anch=false
+  [MeshPart] RThumb1 | Trans=0.0 | Anch=false
+  [MeshPart] RThumb2 | Trans=0.0 | Anch=false
+  [MeshPart] Right Hand | Trans=0.0 | Anch=false
+  [MeshPart] RMiddle1 | Trans=0.0 | Anch=false
+  [MeshPart] RPinky1 | Trans=0.0 | Anch=false
+  [MeshPart] RIndex1 | Trans=0.0 | Anch=false
+  [MeshPart] RMiddle2 | Trans=0.0 | Anch=false
+  [MeshPart] RIndex2 | Trans=0.0 | Anch=false
+  [MeshPart] RPinky2 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.011 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.011 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.015 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.016 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.017 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.020 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.021 | Trans=0.0 | Anch=false
+  [Part] LArm1 | Trans=0.0 | Anch=false
+  [Part] Part | Trans=0.0 | Anch=false
+  [Part] LArm2 | Trans=0.0 | Anch=false
+  [Part] Part | Trans=0.0 | Anch=false
+  [Part] RArm1 | Trans=0.0 | Anch=false
+  [Part] Part | Trans=0.0 | Anch=false
+  [Part] RArm2 | Trans=0.0 | Anch=false
+  [Part] Part | Trans=0.0 | Anch=false
+  [MeshPart] MainBody | Trans=0.0 | Anch=false
+  [MeshPart] LLeg2 | Trans=0.0 | Anch=false
+  [MeshPart] LLeg1 | Trans=0.0 | Anch=false
+  [MeshPart] LLeg3 | Trans=0.0 | Anch=false
+  [MeshPart] LFoot | Trans=0.0 | Anch=false
+  [MeshPart] Cube.022 | Trans=0.0 | Anch=false
+  [MeshPart] Cube.022 | Trans=0.0 | Anch=false
+  [MeshPart] Head | Trans=0.0 | Anch=false
+  [Part] HumanoidRootPart | Trans=1.0 | Anch=false
+  [Part] Waist | Trans=1.0 | Anch=false
+  [MeshPart] skirt | Trans=0.0 | Anch=false
+  [MeshPart] scarf | Trans=0.0 | Anch=false
+
+=== MOTOR6D ===
+  'Cube.006': RLeg2 -> RLeg3 (parent: RLeg2)
+  'Cylinder.005': RLeg1 -> RLeg2 (parent: RLeg1)
+  'Cube.001': RLeg3 -> RFoot (parent: RLeg3)
+  'Cylinder.019': LThumb1 -> LThumb2 (parent: LThumb1)
+  'Cylinder.029': LIndex1 -> LIndex2 (parent: LIndex1)
+  'Cylinder.030': LMiddle1 -> LMiddle2 (parent: LMiddle1)
+  'Cylinder.020': Left Hand -> LThumb1 (parent: Left Hand)
+  'Cylinder.028': Left Hand -> LIndex1 (parent: Left Hand)
+  'Cylinder.031': Left Hand -> LMiddle1 (parent: Left Hand)
+  'Cylinder.021': Left Hand -> LPinky1 (parent: Left Hand)
+  'Cylinder.027': LPinky1 -> LPinky2 (parent: LPinky1)
+  'Cylinder.018': RThumb1 -> RThumb2 (parent: RThumb1)
+  'Cylinder.017': Right Hand -> RThumb1 (parent: Right Hand)
+  'Cylinder.008': Right Hand -> RIndex1 (parent: Right Hand)
+  'Cylinder.005': Right Hand -> RMiddle1 (parent: Right Hand)
+  'Cylinder.016': Right Hand -> RPinky1 (parent: Right Hand)
+  'Cylinder.006': RMiddle1 -> RMiddle2 (parent: RMiddle1)
+  'Cylinder.009': RPinky1 -> RPinky2 (parent: RPinky1)
+  'Cylinder.007': RIndex1 -> RIndex2 (parent: RIndex1)
+  'Cube.016': Cube.015 -> Cube.016 (parent: Cube.015)
+  'Cube.017': Cube.015 -> Cube.017 (parent: Cube.015)
+  'Cube.020': Cube.015 -> Cube.020 (parent: Cube.015)
+  'Cube.021': Cube.015 -> Cube.021 (parent: Cube.015)
+  'MainBody': Cube.015 -> MainBody (parent: Cube.015)
+  'LArm2': LArm1 -> LArm2 (parent: LArm1)
+  'Right Hand': LArm2 -> Right Hand (parent: LArm2)
+  'RArm2': RArm1 -> RArm2 (parent: RArm1)
+  'Left Hand': RArm2 -> Left Hand (parent: RArm2)
+  'Cube.022': MainBody -> Cube.022 (parent: MainBody)
+  'LArm1': MainBody -> LArm1 (parent: MainBody)
+  'RArm1': MainBody -> RArm1 (parent: MainBody)
+  'skirt': MainBody -> skirt (parent: MainBody)
+  'scarf': MainBody -> scarf (parent: MainBody)
+  'Head': MainBody -> Head (parent: MainBody)
+  'Cube.006': LLeg2 -> LLeg3 (parent: LLeg2)
+  'Cylinder.005': LLeg1 -> LLeg2 (parent: LLeg1)
+  'Cube.001': LLeg3 -> LFoot (parent: LLeg3)
+  'HairThing': Head -> HairThing (parent: Head)
+  'Hair1': Head -> Hair1 (parent: Head)
+  'Hair2': Head -> Hair2 (parent: Head)
+  'Cube.003': Head -> Cube.003 (parent: Head)
+  'LEye': Head -> LEye (parent: Head)
+  'REye': Head -> REye (parent: Head)
+  'Waist': HumanoidRootPart -> Waist (parent: HumanoidRootPart)
+  'MainBody': Waist -> MainBody (parent: Waist)
+  'RLeg1': Waist -> RLeg1 (parent: Waist)
+  'LLeg1': Waist -> LLeg1 (parent: Waist)
+
+=== TREE ===
+[Model] Default
+  [NumberValue] Health
+  [Humanoid] Humanoid
+    [Animator] Animator
+  [Model] Model
+    [Model] Hairs
+      [MeshPart] Hair1
+      [MeshPart] Hair2
+      [MeshPart] Cube.003
+      [MeshPart] HairThing
+      [MeshPart] Cube.012
+        [Weld] Cube.025
+    [Folder] ETC
+      [MeshPart] Cube.001
+      [MeshPart] Cube.002
+      [MeshPart] Cube.007
+      [MeshPart] Cube.008
+      [MeshPart] Cube.009
+      [MeshPart] Cube.010
+      [MeshPart] Cube.024
+        [Weld] Cube.023
+        [Weld] Cube.010
+        [Weld] Cube.009
+        [Weld] Cube.008
+        [Weld] Cube.007
+        [Weld] Cube.002
+        [Weld] Cube.001
+        [Weld] Head
+      [MeshPart] Cube.023
+    [MeshPart] Torus
+      [Weld] Cube.024
+    [MeshPart] REye
+    [MeshPart] LEye
+  [Model] Model
+    [Model] Model
+      [MeshPart] RLeg2
+        [Motor6D] Cube.006
+      [MeshPart] RLeg1
+        [Motor6D] Cylinder.005
+    [Model] shoe
+      [MeshPart] RLeg3
+        [Motor6D] Cube.001
+        [Bone] Bone
+      [MeshPart] RFoot
+        [Bone] Bone.001
+  [Model] test
+    [Model] test
+      [Model] Model
+        [Model] Model
+          [MeshPart] LThumb1
+            [Motor6D] Cylinder.019
+          [MeshPart] LIndex1
+            [Motor6D] Cylinder.029
+          [MeshPart] LPinky2
+          [MeshPart] LIndex2
+          [MeshPart] LMiddle2
+          [MeshPart] LMiddle1
+            [Motor6D] Cylinder.030
+          [MeshPart] Left Hand
+            [Motor6D] Cylinder.020
+            [Motor6D] Cylinder.028
+            [Motor6D] Cylinder.031
+            [Motor6D] Cylinder.021
+          [MeshPart] LThumb2
+          [MeshPart] LPinky1
+            [Motor6D] Cylinder.027
+        [Model] Model
+          [MeshPart] RThumb1
+            [Motor6D] Cylinder.018
+          [MeshPart] RThumb2
+          [MeshPart] Right Hand
+            [Motor6D] Cylinder.017
+            [Motor6D] Cylinder.008
+            [Motor6D] Cylinder.005
+            [Motor6D] Cylinder.016
+          [MeshPart] RMiddle1
+            [Motor6D] Cylinder.006
+          [MeshPart] RPinky1
+            [Motor6D] Cylinder.009
+          [MeshPart] RIndex1
+            [Motor6D] Cylinder.007
+          [MeshPart] RMiddle2
+          [MeshPart] RIndex2
+          [MeshPart] RPinky2
+        [MeshPart] Cube.011
+          [Weld] Part
+        [MeshPart] Cube.011
+          [Weld] Part
+      [Folder] Folder
+        [MeshPart] Cube.015
+          [Motor6D] Cube.016
+          [Motor6D] Cube.017
+          [Motor6D] Cube.020
+          [Motor6D] Cube.021
+          [Motor6D] MainBody
+        [MeshPart] Cube.016
+        [MeshPart] Cube.017
+        [MeshPart] Cube.020
+        [MeshPart] Cube.021
+        [Part] LArm1
+          [Motor6D] LArm2
+          [Bone] Robe.001.L
+        [Part] Part
+          [Weld] LArm1
+        [Part] LArm2
+          [Bone] Robe.002.L
+          [Motor6D] Right Hand
+        [Part] Part
+          [Weld] LArm2
+        [Part] RArm1
+          [Motor6D] RArm2
+          [Bone] Robe.001.R
+        [Part] Part
+          [Weld] RArm1
+        [Part] RArm2
+          [Bone] Robe.002.R
+          [Motor6D] Left Hand
+        [Part] Part
+          [Weld] RArm2
+        [MeshPart] MainBody
+          [Bone] Bone
+            [Bone] Robe.L
+            [Bone] Robe.R
+          [Motor6D] Cube.022
+          [Motor6D] LArm1
+          [Motor6D] RArm1
+          [Motor6D] skirt
+          [Motor6D] scarf
+          [Motor6D] Head
+  [Model] Leg
+    [Model] Model
+      [MeshPart] LLeg2
+        [Motor6D] Cube.006
+      [MeshPart] LLeg1
+        [Motor6D] Cylinder.005
+    [Model] shoe
+      [MeshPart] LLeg3
+        [Motor6D] Cube.001
+        [Bone] Bone
+      [MeshPart] LFoot
+        [Bone] Bone.001
+        [Attachment] Attachment
+        [Attachment] Attachment
+        [Trail] Trail
+        [ParticleEmitter] ParticleEmitter
+  [Model] tail
+    [MeshPart] Cube.022
+      [Bone] Bone
+        [Bone] Bone.004
+          [Bone] Bone.002
+            [Bone] Bone.006
+      [SurfaceAppearance] SurfaceAppearance
+    [MeshPart] Cube.022
+      [Weld] Cube.022
+  [Model] Model
+    [Model] eyes
+  [NumberValue] Fever
+  [MeshPart] Head
+    [Motor6D] HairThing
+    [Motor6D] Hair1
+    [Motor6D] Hair2
+    [Motor6D] Cube.003
+    [Motor6D] LEye
+    [Motor6D] REye
+  [Part] HumanoidRootPart
+    [Attachment] Particle
+    [Attachment] Flamethrower
+      [Attachment] start
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+      [Attachment] loops
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+      [Attachment] flameloop
+        [ParticleEmitter] ParticleEmitter
+        [ParticleEmitter] ParticleEmitter
+    [Motor6D] Waist
+  [Part] Waist
+    [Motor6D] MainBody
+    [Motor6D] RLeg1
+    [Motor6D] LLeg1
+  [MeshPart] skirt
+  [MeshPart] scarf

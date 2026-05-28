@@ -1,0 +1,366 @@
+=== MODEL: Honey da catoni ===
+ClassName: Model
+
+=== BASE PARTS ===
+  [MeshPart] Hair/Hair2 | Trans=0.0 | Anch=false | Size=1.3406310081481934, 3.6020755767822266, 1.2963815927505493
+  [MeshPart] Hair/Hair1 | Trans=0.0 | Anch=false | Size=1.3406310081481934, 3.6020753383636475, 1.2963820695877075
+  [MeshPart] Tail/Tail | Trans=0.0 | Anch=false | Size=0.347798615694046, 1.2397223711013794, 1.4653860330581665
+  [MeshPart] Tail/TailEnd | Trans=0.0 | Anch=false | Size=0.4138137102127075, 0.495959609746933, 0.5690892338752747
+  [MeshPart] Model/Model/RLeg3 | Trans=0.0 | Anch=false | Size=0.21892507374286652, 0.43883392214775085, 0.21830487251281738
+  [MeshPart] Model/Model/RLeg2 | Trans=0.0 | Anch=false | Size=0.21901091933250427, 0.4390060305595398, 0.21839050948619843
+  [MeshPart] Model/Model/RLeg1 | Trans=0.0 | Anch=false | Size=0.21892505884170532, 0.43883392214775085, 0.21830487251281738
+  [MeshPart] Model/Model/LFoot1 | Trans=0.0 | Anch=false | Size=0.21892496943473816, 0.43883392214775085, 0.21830487251281738
+  [MeshPart] Model/Model/LFoot3 | Trans=0.0 | Anch=false | Size=0.21892496943473816, 0.43883392214775085, 0.21830487251281738
+  [MeshPart] Model/Model/LFoot2 | Trans=0.0 | Anch=false | Size=0.2190108597278595, 0.4390060305595398, 0.21839050948619843
+  [MeshPart] Model/Model/LeftLeg2 | Trans=0.0 | Anch=false | Size=0.4455907642841339, 0.7519698143005371, 0.4120310842990875
+  [MeshPart] Model/Model/LeftBoot | Trans=0.0 | Anch=false | Size=0.9279913306236267, 1.2827048301696777, 0.9651190638542175
+  [MeshPart] Model/Model/Cube.020 | Trans=0.0 | Anch=false | Size=0.5055776238441467, 1.2063267230987549, 0.7507222294807434
+  [MeshPart] Model/Model/LeftHeel | Trans=0.0 | Anch=false | Size=0.7911481857299805, 0.8701890707015991, 1.8679111003875732
+  [MeshPart] Model/Model/Cube.027 | Trans=0.0 | Anch=false | Size=0.7911481857299805, 0.44487419724464417, 1.8679111003875732
+  [MeshPart] Model/Model/rightleg2 | Trans=0.0 | Anch=false | Size=0.4455907344818115, 0.7519698143005371, 0.4120310842990875
+  [MeshPart] Model/Model/RightBoot | Trans=0.0 | Anch=false | Size=0.9279913306236267, 1.2827047109603882, 0.9651191830635071
+  [MeshPart] Model/Model/Cube.013 | Trans=0.0 | Anch=false | Size=0.5055776238441467, 1.2063267230987549, 0.7507222294807434
+  [MeshPart] Model/Model/RightHeel | Trans=0.0 | Anch=false | Size=0.7911481857299805, 0.8701893091201782, 1.8679111003875732
+  [MeshPart] Model/Model/Cube.006 | Trans=0.0 | Anch=false | Size=0.7911481857299805, 0.44487419724464417, 1.8679111003875732
+  [MeshPart] Torso/Sphere.031 | Trans=0.0 | Anch=false | Size=1.0570186376571655, 0.2903667986392975, 1.0171927213668823
+  [MeshPart] Torso/Neck | Trans=0.0 | Anch=false | Size=0.4033891260623932, 0.4431668221950531, 0.4657936692237854
+  [MeshPart] Torso/RightWing | Trans=0.0 | Anch=false | Size=0.5943303108215332, 1.4214866161346436, 0.9510740637779236
+  [MeshPart] Torso/LeftWing | Trans=0.0 | Anch=false | Size=0.5943303108215332, 1.4214866161346436, 0.9510740637779236
+  [MeshPart] Torso/Cube.005 | Trans=0.0 | Anch=false | Size=0.9887059330940247, 0.7333168387413025, 0.23706874251365662
+  [MeshPart] Torso/Sphere.006 | Trans=0.0 | Anch=false | Size=2.490065574645996, 0.6133541464805603, 2.5595693588256836
+  [MeshPart] Torso/Sphere.028 | Trans=0.0 | Anch=false | Size=0.6809301376342773, 0.7179937362670898, 0.6086567044258118
+  [MeshPart] Torso/Sphere.025 | Trans=0.0 | Anch=false | Size=0.8388846516609192, 0.28335461020469666, 0.9453555941581726
+  [MeshPart] Torso/Sphere.027 | Trans=0.0 | Anch=false | Size=0.705730140209198, 0.9429720640182495, 1.0825072526931763
+  [MeshPart] Torso/Cube.018 | Trans=0.0 | Anch=false | Size=2.027179479598999, 0.08330993354320526, 1.7919152975082397
+  [UnionOperation] head/Model/joy1 | Trans=0.0 | Anch=false | Size=0.5581120252609253, 0.022628411650657654, 0.6029435396194458
+  [UnionOperation] head/Model/joy2 | Trans=0.0 | Anch=false | Size=0.5581120252609253, 0.022628411650657654, 0.6029435396194458
+  [MeshPart] head/muzzle | Trans=0.0 | Anch=false | Size=1.6501262187957764, 0.7858613133430481, 1.0376696586608887
+  [MeshPart] head/Cube.009 | Trans=0.0 | Anch=false | Size=1.4621835947036743, 1.2196929454803467, 0.22838228940963745
+  [MeshPart] head/LEar | Trans=0.0 | Anch=false | Size=1.6375842094421387, 1.414656162261963, 0.5710347890853882
+  [MeshPart] head/LHankerChief | Trans=0.0 | Anch=false | Size=2.0660338401794434, 1.7645816802978516, 1.9698545932769775
+  [MeshPart] head/LEye | Trans=0.0 | Anch=false | Size=0.23829899728298187, 0.6650716662406921, 0.14219903945922852
+  [MeshPart] head/LeyeHighlight | Trans=0.0 | Anch=false | Size=0.08928928524255753, 0.14451728761196136, 0.040373221039772034
+  [MeshPart] head/:< | Trans=0.0 | Anch=false | Size=0.22555972635746002, 0.16706213355064392, 0.1070416048169136
+  [MeshPart] head/:3 | Trans=0.0 | Anch=false | Size=0.5399026870727539, 0.19900842010974884, 0.11487201601266861
+  [MeshPart] head/nose | Trans=0.0 | Anch=false | Size=0.2627936899662018, 0.22286392748355865, 0.19851380586624146
+  [MeshPart] head/eye | Trans=0.0 | Anch=false | Size=1.789918303489685, 1.1060224771499634, 0.4888414442539215
+  [MeshPart] head/lashes | Trans=0.0 | Anch=false | Size=1.8153889179229736, 0.8985851407051086, 0.4509284198284149
+  [MeshPart] head/Cube.026 | Trans=0.0 | Anch=false | Size=1.4621835947036743, 1.2196929454803467, 0.22838228940963745
+  [MeshPart] head/REar | Trans=0.0 | Anch=false | Size=1.6375844478607178, 1.414656400680542, 0.5710347294807434
+  [MeshPart] head/HairBand | Trans=0.0 | Anch=false | Size=2.45394229888916, 1.697399616241455, 0.794958233833313
+  [MeshPart] head/Hair | Trans=0.0 | Anch=false | Size=2.497732400894165, 2.6051580905914307, 2.6979613304138184
+  [MeshPart] head/Reye | Trans=0.0 | Anch=false | Size=0.23829899728298187, 0.6650716662406921, 0.14219902455806732
+  [MeshPart] head/Cube.025 | Trans=0.0 | Anch=false | Size=0.08928926289081573, 0.14451728761196136, 0.040373221039772034
+  [MeshPart] head/RHankerChief | Trans=0.0 | Anch=false | Size=2.0660343170166016, 1.7645810842514038, 1.969854712486267
+  [MeshPart] Model/Model/LArm5 | Trans=0.0 | Anch=false | Size=0.43628981709480286, 0.21671025454998016, 0.2171364724636078
+  [MeshPart] Model/Model/LArm4 | Trans=0.0 | Anch=false | Size=0.4362667500972748, 0.21669887006282806, 0.21712499856948853
+  [MeshPart] Model/Sphere.009 | Trans=0.0 | Anch=false | Size=0.36594483256340027, 0.29780352115631104, 0.41394636034965515
+  [MeshPart] Model/Sphere.014 | Trans=0.0 | Anch=false | Size=0.40460801124572754, 0.37109535932540894, 0.239471897482872
+  [MeshPart] Model/Sphere.012 | Trans=0.0 | Anch=false | Size=0.40176039934158325, 0.3786951005458832, 0.239471897482872
+  [MeshPart] Model/Sphere.010 | Trans=0.0 | Anch=false | Size=0.40460801124572754, 0.37109535932540894, 0.239471897482872
+  [MeshPart] Model/Sphere.013 | Trans=0.0 | Anch=false | Size=0.44020065665245056, 0.2853461802005768, 0.26146993041038513
+  [MeshPart] Model/LeftGauntlet | Trans=0.0 | Anch=false | Size=0.708001971244812, 0.5196899175643921, 0.5291091203689575
+  [MeshPart] Model/Sleeveee2 | Trans=0.0 | Anch=false | Size=0.5079948306083679, 0.8261767625808716, 0.7723622918128967
+  [MeshPart] Model/Sphere.015 | Trans=0.0 | Anch=false | Size=0.4480687975883484, 0.2730454206466675, 0.26146993041038513
+  [MeshPart] Model/Sphere.016 | Trans=0.0 | Anch=false | Size=0.5443151593208313, 0.13115595281124115, 0.5963565707206726
+  [MeshPart] Model/Sphere.011 | Trans=0.0 | Anch=false | Size=0.4480687975883484, 0.27304545044898987, 0.26146993041038513
+  [MeshPart] Model/Cube.014 | Trans=0.0 | Anch=false | Size=0.12630555033683777, 0.4533441364765167, 0.43886762857437134
+  [MeshPart] Model/Cube.032 | Trans=0.0 | Anch=false | Size=0.06860630959272385, 0.7464743256568909, 0.7235156893730164
+  [MeshPart] Model/LeftShoulderPad | Trans=0.0 | Anch=false | Size=0.655749499797821, 0.7464743256568909, 0.7235156893730164
+  [MeshPart] Model/Sphere.008 | Trans=0.0 | Anch=false | Size=0.3973257541656494, 0.3155912756919861, 0.4041108191013336
+  [MeshPart] Model/RArm4 | Trans=0.0 | Anch=false | Size=0.4362667500972748, 0.21669887006282806, 0.21712499856948853
+  [MeshPart] Model/Sleeveee1 | Trans=0.0 | Anch=false | Size=0.5079948306083679, 0.8261767625808716, 0.7723622918128967
+  [MeshPart] Model/RightGauntlet | Trans=0.0 | Anch=false | Size=0.708001971244812, 0.5196899175643921, 0.5291091203689575
+  [MeshPart] Model/Cube.033 | Trans=0.0 | Anch=false | Size=0.06860630959272385, 0.7464743256568909, 0.7235156893730164
+  [MeshPart] Model/RightShoulderPad | Trans=0.0 | Anch=false | Size=0.655749499797821, 0.7464743256568909, 0.7235156893730164
+  [MeshPart] Model/RArm5 | Trans=0.0 | Anch=false | Size=0.43628981709480286, 0.21671025454998016, 0.2171364575624466
+  [MeshPart] Model/Cube.001 | Trans=0.0 | Anch=false | Size=0.12630555033683777, 0.4533441364765167, 0.43886762857437134
+  [MeshPart] Model/Sphere.024 | Trans=0.0 | Anch=false | Size=0.5443151593208313, 0.13115592300891876, 0.5963565707206726
+  [MeshPart] Model/Sphere.023 | Trans=0.0 | Anch=false | Size=0.4480687975883484, 0.2730453908443451, 0.26146993041038513
+  [MeshPart] Model/Sphere.007 | Trans=0.0 | Anch=false | Size=0.3973257541656494, 0.3155912458896637, 0.4041108191013336
+  [MeshPart] Model/Sphere.018 | Trans=0.0 | Anch=false | Size=0.40460801124572754, 0.37109535932540894, 0.23947186768054962
+  [MeshPart] Model/Sphere.020 | Trans=0.0 | Anch=false | Size=0.40176039934158325, 0.3786951005458832, 0.239471897482872
+  [MeshPart] Model/Sphere.022 | Trans=0.0 | Anch=false | Size=0.40460801124572754, 0.37109535932540894, 0.239471897482872
+  [MeshPart] Model/Sphere.019 | Trans=0.0 | Anch=false | Size=0.4480687975883484, 0.2730453610420227, 0.26146993041038513
+  [MeshPart] Model/Sphere.017 | Trans=0.0 | Anch=false | Size=0.36594483256340027, 0.29780352115631104, 0.41394633054733276
+  [MeshPart] Model/Sphere.021 | Trans=0.0 | Anch=false | Size=0.44020065665245056, 0.285346120595932, 0.26146993041038513
+  [MeshPart] UpperBody | Trans=0.0 | Anch=false | Size=1.0946464538574219, 0.5804135203361511, 1.0957207679748535
+  [MeshPart] Hand2 | Trans=0.0 | Anch=false | Size=0.7775796055793762, 0.38281041383743286, 0.7229532599449158
+  [MeshPart] Hand1 | Trans=0.0 | Anch=false | Size=0.7775796055793762, 0.38281041383743286, 0.722953200340271
+  [MeshPart] Head | Trans=0.0 | Anch=false | Size=2.1879191398620605, 2.1516964435577393, 2.204192638397217
+  [MeshPart] Waist | Trans=0.0 | Anch=false | Size=2.088205337524414, 0.9136037230491638, 2.0690500736236572
+  [MeshPart] bellyfur | Trans=0.0 | Anch=false | Size=0.9887059330940247, 0.7333168387413025, 0.24998269975185394
+  [Part] HumanoidRootPart | Trans=1.0 | Anch=false | Size=1.8049565553665161, 1.8049565553665161, 0.9024782776832581
+
+=== MOTOR6D ===
+  Motor6D 'rightleg2': RLeg3 -> rightleg2 (parent: RLeg3)
+  Motor6D 'RLeg3': RLeg2 -> RLeg3 (parent: RLeg2)
+  Motor6D 'RLeg2': RLeg1 -> RLeg2 (parent: RLeg1)
+  Motor6D 'LFoot2': LFoot1 -> LFoot2 (parent: LFoot1)
+  Motor6D 'LeftLeg2': LFoot3 -> LeftLeg2 (parent: LFoot3)
+  Motor6D 'LFoot3': LFoot2 -> LFoot3 (parent: LFoot2)
+  Motor6D 'LeftBoot': LeftLeg2 -> LeftBoot (parent: LeftLeg2)
+  Motor6D 'LeftHeel': LeftBoot -> LeftHeel (parent: LeftBoot)
+  Motor6D 'RightBoot': rightleg2 -> RightBoot (parent: rightleg2)
+  Motor6D 'RightHeel': RightBoot -> RightHeel (parent: RightBoot)
+  Motor6D 'Head': Neck -> Head (parent: Neck)
+  Motor6D ':<': muzzle -> :< (parent: muzzle)
+  Motor6D ':3': muzzle -> :3 (parent: muzzle)
+  Motor6D 'nose': muzzle -> nose (parent: muzzle)
+  Motor6D 'Sleeveee2': LArm5 -> Sleeveee2 (parent: LArm5)
+  Motor6D 'Cylinder.021': LArm4 -> LArm5 (parent: LArm4)
+  Motor6D 'Sphere.008': Sphere.009 -> Sphere.008 (parent: Sphere.009)
+  Motor6D 'Sphere.012': Sphere.013 -> Sphere.012 (parent: Sphere.013)
+  Motor6D 'LeftHand': Sleeveee2 -> Hand1 (parent: Sleeveee2)
+  Motor6D 'Sphere.014': Sphere.015 -> Sphere.014 (parent: Sphere.015)
+  Motor6D 'Sphere.010': Sphere.011 -> Sphere.010 (parent: Sphere.011)
+  Motor6D 'LArm4': LeftShoulderPad -> LArm4 (parent: LeftShoulderPad)
+  Motor6D 'Cylinder.009': RArm4 -> RArm5 (parent: RArm4)
+  Motor6D 'RightHand': Sleeveee1 -> Hand2 (parent: Sleeveee1)
+  Motor6D 'RArm4': RightShoulderPad -> RArm4 (parent: RightShoulderPad)
+  Motor6D 'Sleeveee1': RArm5 -> Sleeveee1 (parent: RArm5)
+  Motor6D 'Sphere.022': Sphere.023 -> Sphere.022 (parent: Sphere.023)
+  Motor6D 'Sphere.018': Sphere.019 -> Sphere.018 (parent: Sphere.019)
+  Motor6D 'Sphere.007': Sphere.017 -> Sphere.007 (parent: Sphere.017)
+  Motor6D 'Sphere.020': Sphere.021 -> Sphere.020 (parent: Sphere.021)
+  Motor6D 'LeftWing': UpperBody -> LeftWing (parent: UpperBody)
+  Motor6D 'RightWing': UpperBody -> RightWing (parent: UpperBody)
+  Motor6D 'Neck': UpperBody -> Neck (parent: UpperBody)
+  Motor6D 'LeftShoulderPad': UpperBody -> LeftShoulderPad (parent: UpperBody)
+  Motor6D 'RightShoulderPad': UpperBody -> RightShoulderPad (parent: UpperBody)
+  Motor6D 'Sphere.023': Hand2 -> Sphere.023 (parent: Hand2)
+  Motor6D 'Sphere.021': Hand2 -> Sphere.021 (parent: Hand2)
+  Motor6D 'Sphere.019': Hand2 -> Sphere.019 (parent: Hand2)
+  Motor6D 'Sphere.017': Hand2 -> Sphere.017 (parent: Hand2)
+  Motor6D 'Sphere.015': Hand1 -> Sphere.015 (parent: Hand1)
+  Motor6D 'Sphere.013': Hand1 -> Sphere.013 (parent: Hand1)
+  Motor6D 'Sphere.011': Hand1 -> Sphere.011 (parent: Hand1)
+  Motor6D 'Sphere.009': Hand1 -> Sphere.009 (parent: Hand1)
+  Motor6D 'Hair': Head -> Hair (parent: Head)
+  Motor6D 'joy2': Head -> joy2 (parent: Head)
+  Motor6D 'joy1': Head -> joy1 (parent: Head)
+  Motor6D 'Hair2': Head -> Hair2 (parent: Head)
+  Motor6D 'Hair1': Head -> Hair1 (parent: Head)
+  Motor6D 'REar': Head -> REar (parent: Head)
+  Motor6D 'LEar': Head -> LEar (parent: Head)
+  Motor6D 'LHankerChief': Head -> LHankerChief (parent: Head)
+  Motor6D 'RHankerChief': Head -> RHankerChief (parent: Head)
+  Motor6D 'LEye': Head -> LEye (parent: Head)
+  Motor6D 'Reye': Head -> Reye (parent: Head)
+  Motor6D 'muzzle': Head -> muzzle (parent: Head)
+  Motor6D 'TailEnd': Waist -> TailEnd (parent: Waist)
+  Motor6D 'RLeg1': Waist -> RLeg1 (parent: Waist)
+  Motor6D 'LFoot1': Waist -> LFoot1 (parent: Waist)
+  Motor6D 'UpperBody': Waist -> UpperBody (parent: Waist)
+  Motor6D 'Waist': HumanoidRootPart -> Waist (parent: HumanoidRootPart)
+
+=== HUMANOID ===
+  Found: Humanoid
+  RigType: Enum.HumanoidRigType.R6
+
+=== ALL DESCENDANTS (tree) ===
+[Model] Honey da catoni
+  [Model] Hair
+    [MeshPart] Hair2
+      [Bone] Hair.L
+        [Bone] Hair.002.L
+          [Bone] Hair.001.L
+            [Bone] Hair.003.L
+    [MeshPart] Hair1
+      [Bone] Hair.R
+        [Bone] Hair.002.R
+          [Bone] Hair.001.R
+            [Bone] Hair.003.R
+  [Model] Tail
+    [MeshPart] Tail
+      [Weld] Weld
+    [MeshPart] TailEnd
+      [Bone] Tail
+        [Bone] Tail.001
+          [Bone] Tail.002
+            [Bone] Tail.003
+  [Humanoid] Humanoid
+    [Animator] Animator
+  [Model] Model
+    [Model] Model
+      [MeshPart] RLeg3
+        [Motor6D] rightleg2
+      [MeshPart] RLeg2
+        [Motor6D] RLeg3
+      [MeshPart] RLeg1
+        [Motor6D] RLeg2
+    [Model] Model
+      [MeshPart] LFoot1
+        [Motor6D] LFoot2
+      [MeshPart] LFoot3
+        [Motor6D] LeftLeg2
+      [MeshPart] LFoot2
+        [Motor6D] LFoot3
+    [Model] Model
+      [MeshPart] LeftLeg2
+        [Motor6D] LeftBoot
+      [MeshPart] LeftBoot
+        [Weld] Cube.020
+        [Motor6D] LeftHeel
+      [MeshPart] Cube.020
+      [MeshPart] LeftHeel
+        [Weld] Cube.027
+      [MeshPart] Cube.027
+    [Model] Model
+      [MeshPart] rightleg2
+        [Motor6D] RightBoot
+      [MeshPart] RightBoot
+        [Weld] Cube.013
+        [Motor6D] RightHeel
+      [MeshPart] Cube.013
+      [MeshPart] RightHeel
+        [Weld] Cube.006
+      [MeshPart] Cube.006
+  [Model] Torso
+    [MeshPart] Sphere.031
+    [MeshPart] Neck
+      [Motor6D] Head
+    [MeshPart] RightWing
+    [MeshPart] LeftWing
+    [MeshPart] Cube.005
+    [MeshPart] Sphere.006
+    [MeshPart] Sphere.028
+    [MeshPart] Sphere.025
+    [MeshPart] Sphere.027
+    [MeshPart] Cube.018
+  [Model] head
+    [Model] Model
+      [UnionOperation] joy1
+      [UnionOperation] joy2
+    [MeshPart] muzzle
+      [Motor6D] :<
+      [Motor6D] :3
+      [Motor6D] nose
+    [MeshPart] Cube.009
+    [MeshPart] LEar
+      [Weld] Cube.009
+    [MeshPart] LHankerChief
+    [MeshPart] LEye
+      [Weld] LeyeHighlight
+    [MeshPart] LeyeHighlight
+    [MeshPart] :<
+    [MeshPart] :3
+    [MeshPart] nose
+    [MeshPart] eye
+    [MeshPart] lashes
+    [MeshPart] Cube.026
+    [MeshPart] REar
+      [Weld] Cube.026
+    [MeshPart] HairBand
+    [MeshPart] Hair
+    [MeshPart] Reye
+      [Weld] Cube.025
+    [MeshPart] Cube.025
+    [MeshPart] RHankerChief
+  [Model] Model
+    [Model] Model
+      [MeshPart] LArm5
+        [Motor6D] Sleeveee2
+      [MeshPart] LArm4
+        [Motor6D] Cylinder.021
+    [MeshPart] Sphere.009
+      [Motor6D] Sphere.008
+    [MeshPart] Sphere.014
+    [MeshPart] Sphere.012
+    [MeshPart] Sphere.010
+    [MeshPart] Sphere.013
+      [Motor6D] Sphere.012
+    [MeshPart] LeftGauntlet
+      [Weld] Sleeveee2
+    [MeshPart] Sleeveee2
+      [Motor6D] LeftHand
+    [MeshPart] Sphere.015
+      [Motor6D] Sphere.014
+    [MeshPart] Sphere.016
+    [MeshPart] Sphere.011
+      [Motor6D] Sphere.010
+    [MeshPart] Cube.014
+    [MeshPart] Cube.032
+    [MeshPart] LeftShoulderPad
+      [Motor6D] LArm4
+      [Weld] Cube.014
+      [Weld] Cube.032
+    [MeshPart] Sphere.008
+  [Model] Model
+    [MeshPart] RArm4
+      [Motor6D] Cylinder.009
+    [MeshPart] Sleeveee1
+      [Weld] RightGauntlet
+      [Motor6D] RightHand
+    [MeshPart] RightGauntlet
+    [MeshPart] Cube.033
+    [MeshPart] RightShoulderPad
+      [Motor6D] RArm4
+      [Weld] Cube.001
+      [Weld] Cube.033
+    [MeshPart] RArm5
+      [Motor6D] Sleeveee1
+    [MeshPart] Cube.001
+    [MeshPart] Sphere.024
+    [MeshPart] Sphere.023
+      [Motor6D] Sphere.022
+    [MeshPart] Sphere.007
+    [MeshPart] Sphere.018
+    [MeshPart] Sphere.020
+    [MeshPart] Sphere.022
+    [MeshPart] Sphere.019
+      [Motor6D] Sphere.018
+    [MeshPart] Sphere.017
+      [Motor6D] Sphere.007
+    [MeshPart] Sphere.021
+      [Motor6D] Sphere.020
+  [MeshPart] UpperBody
+    [Motor6D] LeftWing
+    [Motor6D] RightWing
+    [Motor6D] Neck
+    [Motor6D] LeftShoulderPad
+    [Motor6D] RightShoulderPad
+    [Weld] Sphere.025
+    [Weld] Sphere.031
+    [Weld] Cube.011
+    [Weld] Cube.005
+  [MeshPart] Hand2
+    [Weld] Sphere.024
+    [Motor6D] Sphere.023
+    [Motor6D] Sphere.021
+    [Motor6D] Sphere.019
+    [Motor6D] Sphere.017
+  [MeshPart] Hand1
+    [Weld] Sphere.016
+    [Motor6D] Sphere.015
+    [Motor6D] Sphere.013
+    [Motor6D] Sphere.011
+    [Motor6D] Sphere.009
+  [MeshPart] Head
+    [Motor6D] Hair
+    [Motor6D] joy2
+    [Motor6D] joy1
+    [Motor6D] Hair2
+    [Motor6D] Hair1
+    [Motor6D] REar
+    [Motor6D] LEar
+    [Motor6D] LHankerChief
+    [Motor6D] RHankerChief
+    [Weld] HairBand
+    [Motor6D] LEye
+    [Motor6D] Reye
+    [Weld] eye
+    [Weld] lashes
+    [Motor6D] muzzle
+  [MeshPart] Waist
+    [Motor6D] TailEnd
+    [Motor6D] RLeg1
+    [Motor6D] LFoot1
+    [Motor6D] UpperBody
+    [Weld] Sphere.028
+    [Weld] Sphere.027
+    [Weld] Sphere.006
+    [Weld] Cube.018
+  [MeshPart] bellyfur
+  [Part] HumanoidRootPart
+    [Motor6D] Waist
