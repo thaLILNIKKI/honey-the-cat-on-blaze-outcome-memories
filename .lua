@@ -34,6 +34,7 @@ local BONE_MAP = {
 
 local BONE_OFFSETS = {
     ["UpperBody"] = CFrame.Angles(0, math.pi, 0),
+    ["RArm5"]      = CFrame.Angles(0, math.pi, 0),
     ["Head"]      = CFrame.Angles(0, math.pi, 0),
 }
 
