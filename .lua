@@ -37,6 +37,13 @@ local BONE_OFFSETS = {
     ["Head"]      = CFrame.Angles(0, math.pi, 0),
 }
 
+-- Кости, которые синхронизируют полностью (позиция + ротация)
+local ROOT_BONES = {
+    ["HumanoidRootPart"] = true,
+    ["Waist"] = true,
+    ["UpperBody"] = true,
+}
+
 local SKIN_ASSET_ID = "96857029798216"
 
 local _skinModelCache = nil
@@ -150,15 +157,22 @@ local function applyToPlayer(playerName)
 
 	-- строим пары костей
 	local partPairs = {}
+	local initialPositions = {} -- сохраняем исходные позиции для конечностей
+	
 	for srcName, dstName in pairs(BONE_MAP) do
 		local srcPart = source:FindFirstChild(srcName, true)
 		local dstPart = mdl:FindFirstChild(dstName, true)
 		if srcPart and dstPart then
 			dstPart.Anchored = true
+			-- Сохраняем исходную позицию для конечностей
+			if not ROOT_BONES[dstName] then
+				initialPositions[dstPart] = dstPart.Position
+			end
 			partPairs[#partPairs + 1] = {
 				srcPart,
 				dstPart,
 				BONE_OFFSETS[dstName] or CFrame.identity,
+				ROOT_BONES[dstName] or false, -- флаг для синхронизации позиции
 			}
 		end
 	end
@@ -178,7 +192,17 @@ local function applyToPlayer(playerName)
 		for i = 1, #partPairs do
 			local p = partPairs[i]
 			if p[1].Parent and p[2].Parent then
-				p[2].CFrame = p[1].CFrame * p[3]
+				local srcCFrame = p[1].CFrame * p[3]
+				local isRootBone = p[4]
+				
+				if isRootBone then
+					-- Корни синхронизируем полностью
+					p[2].CFrame = srcCFrame
+				else
+					-- Конечности: синхронизируем только ротацию, сохраняя исходную позицию
+					local rotation = srcCFrame - srcCFrame.Position
+					p[2].CFrame = CFrame.new(initialPositions[p[2]]) * rotation
+				end
 			end
 		end
 	end)
