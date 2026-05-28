@@ -28,20 +28,13 @@ local BONE_MAP = {
 
     -- Левая нога: в Honey корень левой ноги — LFoot1 (не LLeg1!)
     ["LLeg1"]            = "LFoot1",
-    ["LLeg2"]            = "LFoot2",   -- ← вот почему колено не гнулось
+    ["LLeg2"]            = "LFoot2",
     ["LLeg3"]            = "LFoot3",
 }
 
 local BONE_OFFSETS = {
     ["UpperBody"] = CFrame.Angles(0, math.pi, 0),
     ["Head"]      = CFrame.Angles(0, math.pi, 0),
-}
-
--- Кости, которые синхронизируют полностью (позиция + ротация)
-local ROOT_BONES = {
-    ["HumanoidRootPart"] = true,
-    ["Waist"] = true,
-    ["UpperBody"] = true,
 }
 
 local SKIN_ASSET_ID = "96857029798216"
@@ -155,26 +148,21 @@ local function applyToPlayer(playerName)
 	newHrp.Transparency = 1
 	newHrp.CFrame       = hrp.CFrame
 
-	-- строим пары костей
+	-- строим пары костей и сохраняем их исходные CFrame относительно корня
 	local partPairs = {}
-	local savedPositions = {} -- сохраняем исходные позиции конечностей
+	local initialCFrames = {} -- CFrame каждой кости относительно корня в момент загрузки
 	
 	for srcName, dstName in pairs(BONE_MAP) do
 		local srcPart = source:FindFirstChild(srcName, true)
 		local dstPart = mdl:FindFirstChild(dstName, true)
 		if srcPart and dstPart then
 			dstPart.Anchored = true
-			
-			-- Сохраняем исходную позицию для конечностей
-			if not ROOT_BONES[dstName] then
-				savedPositions[dstPart] = dstPart.Position
-			end
-			
+			-- Сохраняем ��сходный CFrame относительно корня
+			initialCFrames[dstPart] = newHrp.CFrame:Inverse() * dstPart.CFrame
 			partPairs[#partPairs + 1] = {
 				srcPart,
 				dstPart,
 				BONE_OFFSETS[dstName] or CFrame.identity,
-				ROOT_BONES[dstName] or false, -- флаг для синхронизации позиции
 			}
 		end
 	end
@@ -191,19 +179,26 @@ local function applyToPlayer(playerName)
 				hiddenSet[part] = nil
 			end
 		end
+		
+		-- Обновляем позицию корня
+		if newHrp.Parent then
+			newHrp.CFrame = hrp.CFrame
+		end
+		
 		for i = 1, #partPairs do
 			local p = partPairs[i]
 			if p[1].Parent and p[2].Parent then
-				local srcCFrame = p[1].CFrame * p[3]
-				local isRootBone = p[4]
-				
-				if isRootBone then
-					-- Корни синхронизируем полностью (позиция + ротация)
-					p[2].CFrame = srcCFrame
-				else
-					-- Конечности: берём только ротацию, позиция остаётся в сохранённом месте
-					local rotation = srcCFrame - srcCFrame.Position
-					p[2].CFrame = CFrame.new(savedPositions[p[2]]) * rotation
+				-- Берём исходное относительное положение кости
+				local initialRelativeCFrame = initialCFrames[p[2]]
+				if initialRelativeCFrame then
+					-- Применяем ротацию от Blaze кости к исходному положению
+					local sourceCFrame = p[1].CFrame * p[3]
+					local sourceRotation = sourceCFrame - sourceCFrame.Position
+					
+					-- Применяем ротацию к исходному положению (ротируем только ротационную часть)
+					local newCFrame = newHrp.CFrame * initialRelativeCFrame
+					-- Заменяем только ротацию на ротацию от источника
+					p[2].CFrame = CFrame.new(newCFrame.Position) * sourceRotation
 				end
 			end
 		end
