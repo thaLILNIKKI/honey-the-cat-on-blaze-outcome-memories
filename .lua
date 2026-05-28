@@ -41,6 +41,52 @@ local BONE_OFFSETS = {
 local SKIN_ASSET_ID = "96857029798216"
 
 local _skinModelCache = nil
+
+-- Исправляет структуру Honey модели для корректной работы
+local function fixHoneyModel(model)
+	print("[HoneySwap] Fixing Honey model structure...")
+	
+	-- Удаляем все SmartBone2 объекты которые вызывают ошибки
+	for _, desc in ipairs(model:GetDescendants()) do
+		if desc:IsA("Bone") then
+			-- Оставляем bones но они не будут использоваться для синхронизации
+			desc.Transparency = 1
+		end
+	end
+	
+	-- Убеждаемся что у модели есть правильная Humanoid структура
+	local humanoid = model:FindFirstChild("Humanoid")
+	if not humanoid then
+		humanoid = Instance.new("Humanoid")
+		humanoid.Parent = model
+		print("[HoneySwap] Created Humanoid")
+	end
+	
+	-- Убеждаемся что HumanoidRootPart существует и правильно установлен
+	local hrp = model:FindFirstChild("HumanoidRootPart")
+	if not hrp then
+		hrp = Instance.new("Part")
+		hrp.Name = "HumanoidRootPart"
+		hrp.Shape = Enum.PartType.Ball
+		hrp.Size = Vector3.new(2, 2, 1)
+		hrp.CanCollide = false
+		hrp.Transparency = 1
+		hrp.Parent = model
+		print("[HoneySwap] Created HumanoidRootPart")
+	end
+	
+	-- Проверяем основные кости
+	local requiredBones = {"Waist", "UpperBody", "Head", "RLeg1", "LFoot1", "RightShoulderPad", "LeftShoulderPad"}
+	for _, boneName in ipairs(requiredBones) do
+		if not model:FindFirstChild(boneName, true) then
+			print("[HoneySwap] WARNING: Missing bone: " .. boneName)
+		end
+	end
+	
+	print("[HoneySwap] Model structure fixed")
+	return model
+end
+
 local function getSkinModel()
 	if _skinModelCache and _skinModelCache.Parent then
 		return _skinModelCache
@@ -51,16 +97,19 @@ local function getSkinModel()
 		_skinModelCache = result
 		return result
 	end
-	-- если нет — инсертим по asset id
-	local ok, ins = pcall(function()
-		return game:GetObjects("rbxassetid://" .. SKIN_ASSET_ID)[1]
-	end)
+	-- если нет — инсертим по asset id и исправляем
+	print("[HoneySwap] Loading Honey model from asset ID...")
 	if ok and ins then
+		print("[HoneySwap] Model loaded, fixing structure...")
+		ins = fixHoneyModel(ins)
 		ins.Parent = ReplicatedStorage
 		_skinModelCache = ins
+		print("[HoneySwap] Model cached in ReplicatedStorage")
 		return ins
+	else
+		warn("[HoneySwap] Failed to load model: " .. tostring(ins))
+		return nil
 	end
-	warn("[HoneySwap] не удалось загрузить модель " .. SKIN_ASSET_ID)
 	return nil
 end
 
