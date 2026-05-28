@@ -157,7 +157,7 @@ local function applyToPlayer(playerName)
 
 	-- строим пары костей
 	local partPairs = {}
-	local relativeOffsets = {} -- относительные позиции конечностей от их корня
+	local savedPositions = {} -- сохраняем исходные позиции конечностей
 	
 	for srcName, dstName in pairs(BONE_MAP) do
 		local srcPart = source:FindFirstChild(srcName, true)
@@ -165,9 +165,9 @@ local function applyToPlayer(playerName)
 		if srcPart and dstPart then
 			dstPart.Anchored = true
 			
-			-- Сохраняем относительную позицию конечности от её корня
+			-- Сохраняем исходную позицию для конечностей
 			if not ROOT_BONES[dstName] then
-				relativeOffsets[dstPart] = newHrp.CFrame:Inverse() * dstPart.CFrame
+				savedPositions[dstPart] = dstPart.Position
 			end
 			
 			partPairs[#partPairs + 1] = {
@@ -198,13 +198,12 @@ local function applyToPlayer(playerName)
 				local isRootBone = p[4]
 				
 				if isRootBone then
-					-- Корни синхронизируем полностью
+					-- Корни синхронизируем полностью (позиция + ротация)
 					p[2].CFrame = srcCFrame
 				else
-					-- Конечности: синхронизируем ротацию, а позиция остаётся относительно корня
+					-- Конечности: берём только ротацию, позиция остаётся в сохранённом месте
 					local rotation = srcCFrame - srcCFrame.Position
-					local rootCFrame = newHrp.CFrame
-					p[2].CFrame = rootCFrame * relativeOffsets[p[2]] * (rotation * relativeOffsets[p[2]]:Inverse())
+					p[2].CFrame = CFrame.new(savedPositions[p[2]]) * rotation
 				end
 			end
 		end
