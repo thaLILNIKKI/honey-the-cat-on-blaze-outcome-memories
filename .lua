@@ -148,17 +148,13 @@ local function applyToPlayer(playerName)
 	newHrp.Transparency = 1
 	newHrp.CFrame       = hrp.CFrame
 
-	-- строим пары костей и сохраняем их исходные CFrame относительно корня
+	-- строим пары костей - просто синхронизируем полностью как было в оригинале
 	local partPairs = {}
-	local initialCFrames = {} -- CFrame каждой кости относительно корня в момент загрузки
-	
 	for srcName, dstName in pairs(BONE_MAP) do
 		local srcPart = source:FindFirstChild(srcName, true)
 		local dstPart = mdl:FindFirstChild(dstName, true)
 		if srcPart and dstPart then
 			dstPart.Anchored = true
-			-- Сохраняем ��сходный CFrame относительно корня
-			initialCFrames[dstPart] = newHrp.CFrame:Inverse() * dstPart.CFrame
 			partPairs[#partPairs + 1] = {
 				srcPart,
 				dstPart,
@@ -166,6 +162,8 @@ local function applyToPlayer(playerName)
 			}
 		end
 	end
+
+	print("[HoneySwap] Loaded " .. #partPairs .. " bone pairs for " .. playerName)
 
 	local syncConn = RunService.Heartbeat:Connect(function()
 		if not playerModel.Parent then
@@ -179,27 +177,10 @@ local function applyToPlayer(playerName)
 				hiddenSet[part] = nil
 			end
 		end
-		
-		-- Обновляем позицию корня
-		if newHrp.Parent then
-			newHrp.CFrame = hrp.CFrame
-		end
-		
 		for i = 1, #partPairs do
 			local p = partPairs[i]
 			if p[1].Parent and p[2].Parent then
-				-- Берём исходное относительное положение кости
-				local initialRelativeCFrame = initialCFrames[p[2]]
-				if initialRelativeCFrame then
-					-- Применяем ротацию от Blaze кости к исходному положению
-					local sourceCFrame = p[1].CFrame * p[3]
-					local sourceRotation = sourceCFrame - sourceCFrame.Position
-					
-					-- Применяем ротацию к исходному положению (ротируем только ротационную часть)
-					local newCFrame = newHrp.CFrame * initialRelativeCFrame
-					-- Заменяем только ротацию на ротацию от источника
-					p[2].CFrame = CFrame.new(newCFrame.Position) * sourceRotation
-				end
+				p[2].CFrame = p[1].CFrame * p[3]
 			end
 		end
 	end)
@@ -211,6 +192,8 @@ local function applyToPlayer(playerName)
 		hiddenSet = hiddenSet,
 		partPairs = partPairs,
 	}
+	
+	print("[HoneySwap] Applied to " .. playerName)
 end
 
 local function removeFromPlayer(playerName)
