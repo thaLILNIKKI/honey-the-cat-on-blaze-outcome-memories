@@ -176,6 +176,7 @@ local function applyToPlayer(playerName)
 				else
 					-- Конечности: синхронизируем только ротацию, НЕ ТРОГАЯ ПОЗИЦИИ
 					-- КАК БЛЯТЬ ЭТО СДЕЛАТЬ
+					p[2].CFrame = p[2].CFrame.Position * srcCFrame:ToOrientation()
 				end
 			end
 		end
