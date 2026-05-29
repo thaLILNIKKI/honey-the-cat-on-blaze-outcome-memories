@@ -28,91 +28,28 @@ local BONE_MAP = {
 
     -- Левая нога: в Honey корень левой ноги — LFoot1 (не LLeg1!)
     ["LLeg1"]            = "LFoot1",
-    ["LLeg2"]            = "LFoot2",
+    ["LLeg2"]            = "LFoot2",   -- ← вот почему колено не гнулось
     ["LLeg3"]            = "LFoot3",
 }
 
 local BONE_OFFSETS = {
     ["UpperBody"] = CFrame.Angles(0, math.pi, 0),
-    ["RArm5"]      = CFrame.Angles(0, math.pi, 0),
     ["Head"]      = CFrame.Angles(0, math.pi, 0),
+	["RArm5"]     = CFrame.Angles(0, math.pi, 0),
+}
+
+-- Кости, которые синхронизируют полностью (позиция + ротация)
+local ROOT_BONES = {
+    ["HumanoidRootPart"] = true,
+    ["Waist"] = true,
+    ["UpperBody"] = true,
 }
 
 local SKIN_ASSET_ID = "96857029798216"
-
-local _skinModelCache = nil
-
--- Исправляет структуру Honey модели для корректной работы
-local function fixHoneyModel(model)
-	print("[HoneySwap] Fixing Honey model structure...")
-	
-	-- Удаляем все SmartBone2 объекты которые вызывают ошибки
-	for _, desc in ipairs(model:GetDescendants()) do
-		if desc:IsA("Bone") then
-			-- Оставляем bones но они не будут использоваться для синхронизации
-			desc.Transparency = 1
-		end
-	end
-	
-	-- Убеждаемся что у модели есть правильная Humanoid структура
-	local humanoid = model:FindFirstChild("Humanoid")
-	if not humanoid then
-		humanoid = Instance.new("Humanoid")
-		humanoid.Parent = model
-		print("[HoneySwap] Created Humanoid")
-	end
-	
-	-- Убеждаемся что HumanoidRootPart существует и правильно установлен
-	local hrp = model:FindFirstChild("HumanoidRootPart")
-	if not hrp then
-		hrp = Instance.new("Part")
-		hrp.Name = "HumanoidRootPart"
-		hrp.Shape = Enum.PartType.Ball
-		hrp.Size = Vector3.new(2, 2, 1)
-		hrp.CanCollide = false
-		hrp.Transparency = 1
-		hrp.Parent = model
-		print("[HoneySwap] Created HumanoidRootPart")
-	end
-	
-	-- Проверяем основные кости
-	local requiredBones = {"Waist", "UpperBody", "Head", "RLeg1", "LFoot1", "RightShoulderPad", "LeftShoulderPad"}
-	for _, boneName in ipairs(requiredBones) do
-		if not model:FindFirstChild(boneName, true) then
-			print("[HoneySwap] WARNING: Missing bone: " .. boneName)
-		end
-	end
-	
-	print("[HoneySwap] Model structure fixed")
-	return model
-end
-
+ 
 local function getSkinModel()
-	if _skinModelCache and _skinModelCache.Parent then
-		return _skinModelCache
-	end
-	-- попробуем найти в ReplicatedStorage по имени
-	local result = ReplicatedStorage:FindFirstChild("Honey da catoni", true)
-	if result then
-		_skinModelCache = result
-		return result
-	end
-	-- если нет — инсертим по asset id и исправляем
-	print("[HoneySwap] Loading Honey model from asset ID...")
-	if ok and ins then
-		print("[HoneySwap] Model loaded, fixing structure...")
-		ins = fixHoneyModel(ins)
-		ins.Parent = ReplicatedStorage
-		_skinModelCache = ins
-		print("[HoneySwap] Model cached in ReplicatedStorage")
-		return ins
-	else
-		warn("[HoneySwap] Failed to load model: " .. tostring(ins))
-		return nil
-	end
-	return nil
+	return game:GetObjects("rbxassetid://" .. SKIN_ASSET_ID)[1]
 end
-
 local activeData = {}
 
 local function resetState(playerName)
@@ -198,8 +135,9 @@ local function applyToPlayer(playerName)
 	newHrp.Transparency = 1
 	newHrp.CFrame       = hrp.CFrame
 
-	-- строим пары костей - просто синхронизируем полностью как было в оригинале
+	-- строим пары костей
 	local partPairs = {}
+
 	for srcName, dstName in pairs(BONE_MAP) do
 		local srcPart = source:FindFirstChild(srcName, true)
 		local dstPart = mdl:FindFirstChild(dstName, true)
@@ -209,11 +147,10 @@ local function applyToPlayer(playerName)
 				srcPart,
 				dstPart,
 				BONE_OFFSETS[dstName] or CFrame.identity,
+				ROOT_BONES[dstName] or false, -- флаг для синхронизации позиции
 			}
 		end
 	end
-
-	print("[HoneySwap] Loaded " .. #partPairs .. " bone pairs for " .. playerName)
 
 	local syncConn = RunService.Heartbeat:Connect(function()
 		if not playerModel.Parent then
@@ -230,7 +167,16 @@ local function applyToPlayer(playerName)
 		for i = 1, #partPairs do
 			local p = partPairs[i]
 			if p[1].Parent and p[2].Parent then
-				p[2].CFrame = p[1].CFrame * p[3]
+				local srcCFrame = p[1].CFrame * p[3]
+				local isRootBone = p[4]
+				
+				if isRootBone then
+					-- Корни синхронизируем полностью
+					p[2].CFrame = srcCFrame
+				else
+					-- Конечности: синхронизируем только ротацию, НЕ ТРОГАЯ ПОЗИЦИИ
+					-- КАК БЛЯТЬ ЭТО СДЕЛАТЬ
+				end
 			end
 		end
 	end)
@@ -242,8 +188,6 @@ local function applyToPlayer(playerName)
 		hiddenSet = hiddenSet,
 		partPairs = partPairs,
 	}
-	
-	print("[HoneySwap] Applied to " .. playerName)
 end
 
 local function removeFromPlayer(playerName)
