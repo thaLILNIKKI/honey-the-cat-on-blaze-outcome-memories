@@ -1,4 +1,4 @@
-print("[Honey-da-catoni] Now loading... Made by lil2kki <3 (adapted from Cream x TailsDoll)")
+print("[Honey-da-catoni] Now loading... Made by lil2kki <3")
 
 local honeyAssetId = "rbxassetid://96857029798216"
 local honeyModel = game:GetObjects(honeyAssetId)[1]
@@ -184,4 +184,4 @@ workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(f
     end
 end)
 
-print("Honey-da-catoni ready – waiting for Blaze characters")
+print("[Honey-da-catoni] ready")
