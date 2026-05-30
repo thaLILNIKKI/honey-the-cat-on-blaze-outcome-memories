@@ -1,248 +1,187 @@
+print("[Honey-da-catoni] Now loading... Made by lil2kki <3 (adapted from Cream x TailsDoll)")
 
-local Players			= game:GetService("Players")
-local RunService		= game:GetService("RunService")
-local ReplicatedStorage	= game:GetService("ReplicatedStorage")
-
--- Blaze bone  →  Honey bone
-local BONE_MAP = {
-    -- Корень
-    ["HumanoidRootPart"] = "HumanoidRootPart",
-    ["Waist"]            = "Waist",
-    ["MainBody"]         = "UpperBody",
-
-    -- Голова
-    ["Head"]             = "Head",
-
-    -- Правая рука: Blaze RArm1→RArm2 → Honey RightShoulderPad→RArm5
-    ["RArm1"]            = "RightShoulderPad",
-    ["RArm2"]            = "RArm5",
-
-    -- Левая рука: Blaze LArm1→LArm2 → Honey LeftShoulderPad→LArm5
-    ["LArm1"]            = "LeftShoulderPad",
-    ["LArm2"]            = "LArm5",
-
-    -- Правая нога
-    ["RLeg1"]            = "RLeg1",
-    ["RLeg2"]            = "RLeg2",
-    ["RLeg3"]            = "RLeg3",
-
-    -- Левая нога: в Honey корень левой ноги — LFoot1 (не LLeg1!)
-    ["LLeg1"]            = "LFoot1",
-    ["LLeg2"]            = "LFoot2",   -- ← вот почему колено не гнулось
-    ["LLeg3"]            = "LFoot3",
-}
-
-local BONE_OFFSETS = {
-    ["UpperBody"] = CFrame.Angles(0, math.pi, 0),
-    ["Head"]      = CFrame.Angles(0, math.pi, 0),
-	["RArm5"]     = CFrame.Angles(0, math.pi, 0),
-}
-
--- Кости, которые синхронизируют полностью (позиция + ротация)
-local ROOT_BONES = {
-    ["HumanoidRootPart"] = true,
-    ["Waist"] = true,
-    ["UpperBody"] = true,
-}
-
-local SKIN_ASSET_ID = "96857029798216"
- 
-local function getSkinModel()
-	return game:GetObjects("rbxassetid://" .. SKIN_ASSET_ID)[1]
-end
-local activeData = {}
-
-local function resetState(playerName)
-	local data = activeData[playerName]
-	if not data then return end
-	if data.syncConn then data.syncConn:Disconnect() end
-	if data.descConn then data.descConn:Disconnect() end
-	if data.mdl then data.mdl:Destroy() end
-	activeData[playerName] = nil
+local honeyAssetId = "rbxassetid://96857029798216"
+local honeyModel = game:GetObjects(honeyAssetId)[1]
+if not honeyModel then
+    warn("Failed to load Honey model from asset")
+    return
 end
 
-local function hideDescendants(container, hiddenSet)
-	for _, v in ipairs(container:GetDescendants()) do
-		if v:IsA("BasePart") then
-			v.Transparency = 1
-			hiddenSet[v] = true
-		end
-	end
+local function prepareHoneyModel()
+    local model = honeyModel:Clone()
+	
+    for _, v in ipairs(model:GetDescendants()) do
+        if v:IsA("Humanoid") then
+            v:Destroy()
+        end
+    end
+
+    local function find(obj, name)
+        return obj:FindFirstChild(name, true)
+    end
+    local function rename(obj, newName)
+        if obj and obj.Name ~= newName then
+            obj.Name = newName
+        end
+    end
+
+    rename(find(model, "UpperBody"), "MainBody")
+    rename(find(model, "RightShoulderPad"), "RArm1")
+    rename(find(model, "RArm4"), "RArm2")
+    rename(find(model, "LeftShoulderPad"), "LArm1")
+    rename(find(model, "LArm4"), "LArm2")
+    rename(find(model, "LFoot1"), "LLeg1")
+    rename(find(model, "LFoot2"), "LLeg2")
+    rename(find(model, "LFoot3"), "LLeg3")
+
+    for _, part in ipairs(model:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = false
+        end
+    end
+
+    return model
 end
 
-local function showDescendants(container)
-	for _, v in ipairs(container:GetDescendants()) do
-		if v:IsA("BasePart") then v.Transparency = 0 end
-	end
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local blazePath = replicatedStorage:FindFirstChild("Characters", true)
+if not blazePath then
+    warn("Characters folder not found")
+    return
+end
+blazePath = blazePath:FindFirstChild("Blaze", true)
+if not blazePath then
+    warn("Blaze folder not found")
+    return
+end
+local skins = blazePath:FindFirstChild("Skins", true)
+if not skins then
+    warn("Skins folder not found")
+    return
 end
 
-local function applyToPlayer(playerName)
-	resetState(playerName)
-
-	local playerModel = workspace:FindFirstChild("Players") and workspace.Players:FindFirstChild(playerName)
-	if not playerModel then return end
-	if playerModel:GetAttribute("Character") ~= "Blaze" then return end
-
-	local playerObj  = Players:FindFirstChild(playerName)
-	local standardChar = playerObj and playerObj.Character
-	local defaultFolder = playerModel:FindFirstChild("Default")
-	local source = defaultFolder or standardChar
-	if not source then return end
-
-	local hrp = source:FindFirstChild("HumanoidRootPart")
-	if not hrp then return end
-
-	-- прячем оригинальную модель
-	local hiddenSet = {}
-	hideDescendants(playerModel, hiddenSet)
-	if defaultFolder then hideDescendants(defaultFolder, hiddenSet) end
-	if standardChar and standardChar ~= source then
-		hideDescendants(standardChar, hiddenSet)
-	end
-
-	local descConn = nil
-	if defaultFolder then
-		descConn = defaultFolder.DescendantAdded:Connect(function(v)
-			if v:IsA("BasePart") then
-				v.Transparency = 1
-				hiddenSet[v] = true
-			end
-		end)
-	end
-
-	local skinSource = getSkinModel()
-	if not skinSource then return end
-
-	local mdl = skinSource:Clone()
-	mdl.Parent = playerModel
-
-	local newHrp = mdl:FindFirstChild("HumanoidRootPart")
-	if not newHrp then mdl:Destroy(); return end
-
-	-- чистим лишнее
-	for _, v in ipairs(mdl:GetDescendants()) do
-		if v:IsA("Humanoid") or v:IsA("Animator") then
-			v:Destroy()
-		elseif v:IsA("BasePart") then
-			v.CanCollide = false
-			v.Anchored   = false
-		elseif v:IsA("Trail") or v:IsA("Beam") then
-			v.Enabled = false
-		end
-	end
-
-	newHrp.Anchored     = true
-	newHrp.Transparency = 1
-	newHrp.CFrame       = hrp.CFrame
-
-	-- строим пары костей
-	local partPairs = {}
-
-	for srcName, dstName in pairs(BONE_MAP) do
-		local srcPart = source:FindFirstChild(srcName, true)
-		local dstPart = mdl:FindFirstChild(dstName, true)
-		if srcPart and dstPart then
-			dstPart.Anchored = true
-			partPairs[#partPairs + 1] = {
-				srcPart,
-				dstPart,
-				BONE_OFFSETS[dstName] or CFrame.identity,
-				ROOT_BONES[dstName] or false, -- флаг для синхронизации позиции
-			}
-		end
-	end
-
-	local syncConn = RunService.Heartbeat:Connect(function()
-		if not playerModel.Parent then
-			resetState(playerName)
-			return
-		end
-		for part in pairs(hiddenSet) do
-			if part.Parent then
-				part.Transparency = 1
-			else
-				hiddenSet[part] = nil
-			end
-		end
-		for i = 1, #partPairs do
-			local p = partPairs[i]
-			if p[1].Parent and p[2].Parent then
-				local srcCFrame = p[1].CFrame * p[3]
-				local isRootBone = p[4]
-				
-				if isRootBone then
-					-- Корни синхронизируем полностью
-					p[2].CFrame = srcCFrame
-				else
-					-- Конечности: синхронизируем только ротацию, НЕ ТРОГАЯ ПОЗИЦИИ
-					-- КАК БЛЯТЬ ЭТО СДЕЛАТЬ
-					p[2].CFrame = p[2].CFrame.Position * srcCFrame:ToOrientation()
-				end
-			end
-		end
-	end)
-
-	activeData[playerName] = {
-		mdl       = mdl,
-		syncConn  = syncConn,
-		descConn  = descConn,
-		hiddenSet = hiddenSet,
-		partPairs = partPairs,
-	}
+local oldDefault = skins:FindFirstChild("_OLD", true)
+if oldDefault then
+    warn("OLD_THERE_ALR - restoring original Blaze skin")
+    local currentDefault = skins:FindFirstChild("Default", true)
+    if currentDefault then currentDefault:Destroy() end
+    oldDefault.Name = "Default"
 end
 
-local function removeFromPlayer(playerName)
-	local data = activeData[playerName]
-	if not data then return end
-
-	local playerModel  = workspace:FindFirstChild("Players") and workspace.Players:FindFirstChild(playerName)
-	local playerObj    = Players:FindFirstChild(playerName)
-	local standardChar = playerObj and playerObj.Character
-	local defaultFolder = playerModel and playerModel:FindFirstChild("Default")
-
-	if defaultFolder  then showDescendants(defaultFolder)  end
-	if standardChar   then showDescendants(standardChar)   end
-	if playerModel    then showDescendants(playerModel)    end
-
-	resetState(playerName)
+local originalDefault = skins:FindFirstChild("Default", true)
+if not originalDefault then
+    warn("Default skin for Blaze not found")
+    return
 end
 
-local function onModelAdded(model)
-	if not model:IsA("Model") then return end
-	local name = model.Name
-	if model:GetAttribute("Character") == "Blaze" then
-		task.wait(0.5)
-		applyToPlayer(name)
-	end
-	model.AttributeChanged:Connect(function(attr)
-		if attr == "Character" then
-			if model:GetAttribute("Character") == "Blaze" then
-				applyToPlayer(name)
-			else
-				removeFromPlayer(name)
-			end
-		end
-	end)
+local honeySkin = prepareHoneyModel()
+honeySkin.Name = "Default"
+honeySkin.Parent = skins
+
+for _, obj in ipairs(originalDefault:GetChildren()) do
+    if not honeySkin:FindFirstChild(obj.Name) then
+        local cloned = obj:Clone()
+        cloned.Parent = honeySkin
+        if cloned:IsA("BasePart") then
+            cloned.Transparency = 1
+            cloned.LocalTransparencyModifier = 1
+            cloned.CFrame = CFrame.new(0, -99999, 0)
+        end
+    end
 end
 
-local function onModelRemoved(model)
-	removeFromPlayer(model.Name)
+originalDefault.Name = "_OLD"
+
+print("Blaze skin replaced with Honey (Default)")
+
+local function replaceCharacter(playerName)
+    local playerModel = workspace:FindFirstChild("Players", true):FindFirstChild(playerName)
+    if not playerModel then return end
+
+    if playerModel:GetAttribute("Character") ~= "Blaze" then return end
+
+    local honeySkinSrc = replicatedStorage:FindFirstChild("Characters", true)
+        :FindFirstChild("Blaze", true)
+        :FindFirstChild("Skins", true)
+        :FindFirstChild("Default", true)
+    if not honeySkinSrc then
+        warn("Honey skin not found in ReplicatedStorage")
+        return
+    end
+
+    local hrp = playerModel:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    local mdl = honeySkinSrc:Clone()
+    mdl.Parent = playerModel
+
+    for _, v in ipairs(mdl:GetDescendants()) do
+        if v:IsA("Humanoid") then
+            v:Destroy()
+        elseif v:IsA("BasePart") then
+            v.CanCollide = false
+            v.Anchored = false
+        end
+    end
+
+    local newHrp = mdl:FindFirstChild("HumanoidRootPart", true)
+    if not newHrp then
+        mdl:Destroy()
+        return
+    end
+
+    local toRestoreTransparency = {}
+    for _, part in ipairs(mdl:GetDescendants()) do
+        if part:IsA("BasePart") then
+            toRestoreTransparency[part] = part.Transparency
+        end
+    end
+
+    local hrpOffset = Vector3.new(0, 0.52, 0)
+
+    local syncConn
+    syncConn = game:GetService("RunService").Heartbeat:Connect(function()
+        if not mdl or not mdl.Parent then
+            syncConn:Disconnect()
+            replaceCharacter(playerName)
+            return
+        end
+
+        if playerModel:GetAttribute("Character") ~= "Blaze" then
+            syncConn:Disconnect()
+            mdl:Destroy()
+            return
+        end
+
+        newHrp.CFrame = hrp.CFrame + hrpOffset
+
+        for _, v in ipairs(playerModel:GetDescendants()) do
+            if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                v.Transparency = 1
+            end
+        end
+
+        for part, trans in pairs(toRestoreTransparency) do
+            part.Transparency = trans
+        end
+    end)
+
+    return playerModel
 end
 
-local playersContainer = workspace:FindFirstChild("Players")
-if playersContainer then
-	for _, model in ipairs(playersContainer:GetChildren()) do
-		onModelAdded(model)
-	end
-	playersContainer.ChildAdded:Connect(onModelAdded)
-	playersContainer.ChildRemoved:Connect(onModelRemoved)
+local function onPlayerModelAdded(model)
+    if not model:IsA("Model") then return end
+    task.wait(1)
+    replaceCharacter(model.Name)
 end
 
-Players.PlayerAdded:Connect(function(player)
-	player.CharacterAdded:Connect(function()
-		local playerModel = workspace:FindFirstChild("Players") and workspace.Players:FindFirstChild(player.Name)
-		if playerModel and playerModel:GetAttribute("Character") == "Blaze" then
-			applyToPlayer(player.Name)
-		end
-	end)
+workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
+    if newState ~= "ING" then return end
+    task.wait(1)
+
+    for _, model in ipairs(workspace:WaitForChild("Players"):GetChildren()) do
+        onPlayerModelAdded(model)
+    end
 end)
+
+print("Honey-da-catoni ready – waiting for Blaze characters")
