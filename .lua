@@ -1,29 +1,25 @@
+_G.HoneySkinGameStateConnection = _G.HoneySkinGameStateConnection or nil
+if _G.HoneySkinGameStateConnection then
+	_G.HoneySkinGameStateConnection:Disconnect()
+	_G.HoneySkinGameStateConnection = nil
+	print("[Honey-da-catoni] Previous connection destroyed")
+end
+
 print("[Honey-da-catoni] Now loading... Made by lil2kki <3")
 
 local honeyAssetId = "rbxassetid://96857029798216"
 local honeyModel = game:GetObjects(honeyAssetId)[1]
-if not honeyModel then
-    warn("Failed to load Honey model from asset")
-    return
-end
+if not honeyModel then warn("Failed to load Honey model from asset") return end
 
 local function prepareHoneyModel()
     local model = honeyModel:Clone()
 	
     for _, v in ipairs(model:GetDescendants()) do
-        if v:IsA("Humanoid") then
-            v:Destroy()
-        end
+        if v:IsA("Humanoid") then v:Destroy() end
     end
 
-    local function find(obj, name)
-        return obj:FindFirstChild(name, true)
-    end
-    local function rename(obj, newName)
-        if obj and obj.Name ~= newName then
-            obj.Name = newName
-        end
-    end
+    local function find(obj, name) return obj:FindFirstChild(name, true) end
+    local function rename(obj, newName) if obj and obj.Name ~= newName then obj.Name = newName end end
 
     rename(find(model, "UpperBody"), "MainBody")
     rename(find(model, "RightShoulderPad"), "RArm1")
@@ -35,44 +31,29 @@ local function prepareHoneyModel()
     rename(find(model, "LFoot3"), "LLeg3")
 
     for _, part in ipairs(model:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.CanCollide = false
-        end
+        if part:IsA("BasePart") then part.CanCollide = false end
     end
 
     return model
 end
 
-local replicatedStorage = game:GetService("ReplicatedStorage")
-local blazePath = replicatedStorage:FindFirstChild("Characters", true)
-if not blazePath then
-    warn("Characters folder not found")
-    return
-end
+local blazePath = game:GetService("ReplicatedStorage"):FindFirstChild("Characters", true)
+if not blazePath then warn("Characters folder not found") return end
 blazePath = blazePath:FindFirstChild("Blaze", true)
-if not blazePath then
-    warn("Blaze folder not found")
-    return
-end
+if not blazePath then warn("Blaze folder not found") return end
 local skins = blazePath:FindFirstChild("Skins", true)
-if not skins then
-    warn("Skins folder not found")
-    return
-end
+if not skins then warn("Skins folder not found") return end
 
 local oldDefault = skins:FindFirstChild("_OLD", true)
 if oldDefault then
-    warn("OLD_THERE_ALR - restoring original Blaze skin")
+    warn("Restoring original Blaze skin")
     local currentDefault = skins:FindFirstChild("Default", true)
     if currentDefault then currentDefault:Destroy() end
     oldDefault.Name = "Default"
 end
 
 local originalDefault = skins:FindFirstChild("Default", true)
-if not originalDefault then
-    warn("Default skin for Blaze not found")
-    return
-end
+if not originalDefault then warn("Default skin for Blaze not found") return end
 
 local honeySkin = prepareHoneyModel()
 honeySkin.Name = "Default"
@@ -83,9 +64,10 @@ for _, obj in ipairs(originalDefault:GetChildren()) do
         local cloned = obj:Clone()
         cloned.Parent = honeySkin
         if cloned:IsA("BasePart") then
+			cloned.CanCollide = false
             cloned.Transparency = 1
             cloned.LocalTransparencyModifier = 1
-            cloned.CFrame = CFrame.new(0, -99999, 0)
+    		cloned.Size = Vector3.new(0, 0, 0)
         end
     end
 end
@@ -100,7 +82,7 @@ local function replaceCharacter(playerName)
 
     if playerModel:GetAttribute("Character") ~= "Blaze" then return end
 
-    local honeySkinSrc = replicatedStorage:FindFirstChild("Characters", true)
+    local honeySkinSrc = game:GetService("ReplicatedStorage"):FindFirstChild("Characters", true)
         :FindFirstChild("Blaze", true)
         :FindFirstChild("Skins", true)
         :FindFirstChild("Default", true)
@@ -108,6 +90,10 @@ local function replaceCharacter(playerName)
         warn("Honey skin not found in ReplicatedStorage")
         return
     end
+
+	for _, v in ipairs(playerModel:GetDescendants()) do if v:IsA("BasePart") then
+		v.Transparency = 1
+	end end
 
     local hrp = playerModel:FindFirstChild("HumanoidRootPart")
     if not hrp then return end
@@ -125,17 +111,7 @@ local function replaceCharacter(playerName)
     end
 
     local newHrp = mdl:FindFirstChild("HumanoidRootPart", true)
-    if not newHrp then
-        mdl:Destroy()
-        return
-    end
-
-    local toRestoreTransparency = {}
-    for _, part in ipairs(mdl:GetDescendants()) do
-        if part:IsA("BasePart") then
-            toRestoreTransparency[part] = part.Transparency
-        end
-    end
+    if not newHrp then mdl:Destroy() return end
 
     local hrpOffset = Vector3.new(0, 0.52, 0)
 
@@ -146,42 +122,31 @@ local function replaceCharacter(playerName)
             replaceCharacter(playerName)
             return
         end
-
         if playerModel:GetAttribute("Character") ~= "Blaze" then
             syncConn:Disconnect()
             mdl:Destroy()
             return
         end
-
         newHrp.CFrame = hrp.CFrame + hrpOffset
-
-        for _, v in ipairs(playerModel:GetDescendants()) do
-            if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
-                v.Transparency = 1
-            end
-        end
-
-        for part, trans in pairs(toRestoreTransparency) do
-            part.Transparency = trans
-        end
     end)
 
     return playerModel
 end
 
-local function onPlayerModelAdded(model)
-    if not model:IsA("Model") then return end
+local function walkPlayers()
     task.wait(1)
-    replaceCharacter(model.Name)
+    for _, model in ipairs(workspace:WaitForChild("Players"):GetChildren()) do
+    	if not model:IsA("Model") then continue end
+    	if model:GetAttribute("Character") ~= "Blaze" then continue end
+    	replaceCharacter(model.Name)
+    end
 end
 
-workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
+_G.HoneySkinGameStateConnection = workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
     if newState ~= "ING" then return end
-    task.wait(1)
-
-    for _, model in ipairs(workspace:WaitForChild("Players"):GetChildren()) do
-        onPlayerModelAdded(model)
-    end
+	walkPlayers()
 end)
+
+walkPlayers()
 
 print("[Honey-da-catoni] ready")
