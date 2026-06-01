@@ -20,6 +20,9 @@ local function prepareHoneyModel()
 
     local function find(obj, name) return obj:FindFirstChild(name, true) end
     local function rename(obj, newName) if obj and obj.Name ~= newName then obj.Name = newName end end
+	
+    local hrp = find(model, "HumanoidRootPart")
+	hrp.CFrame = hrp.CFrame + Vector3.new(0, 0.52, 0)
 
     rename(find(model, "UpperBody"), "MainBody")
     rename(find(model, "RightShoulderPad"), "RArm1")
@@ -68,6 +71,7 @@ for _, obj in ipairs(originalDefault:GetChildren()) do
             cloned.Transparency = 1
             cloned.LocalTransparencyModifier = 1
     		cloned.Size = Vector3.new(0, 0, 0)
+        	cloned.CFrame = CFrame.new(0, 0, 0)
         end
     end
 end
