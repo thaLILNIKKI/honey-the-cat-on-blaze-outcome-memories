@@ -1,4 +1,6 @@
 print("[Honey-da-catoni] Now loading... Made by lil2kki <3")
+print("[Honey-da-catoni] Model used: https://create.roblox.com/store/asset/96857029798216")
+print("[Honey-da-catoni] Original script (where i took asset id): https://scriptblox.com/script/Outcome-Memories-v0.2-HONEY-da-cat-honey-honey-da-cat-FOR-blAZE-153452")
 
 local honeyAssetId = "rbxassetid://96857029798216"
 local honeyModel = game:GetObjects(honeyAssetId)[1]
