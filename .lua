@@ -1,10 +1,3 @@
-_G.HoneySkinGameStateConnection = _G.HoneySkinGameStateConnection or nil
-if _G.HoneySkinGameStateConnection then
-	_G.HoneySkinGameStateConnection:Disconnect()
-	_G.HoneySkinGameStateConnection = nil
-	print("[Honey-da-catoni] Previous connection destroyed")
-end
-
 print("[Honey-da-catoni] Now loading... Made by lil2kki <3")
 
 local honeyAssetId = "rbxassetid://96857029798216"
@@ -53,8 +46,8 @@ local function prepareHoneyModel()
         newMotor.Name = "LArm1"
         newMotor.Part0 = upperBody
         newMotor.Part1 = leftArm
-        newMotor.C0 = CFrame.new(-0.6, 0.3, 0)
-        newMotor.C1 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(180), math.rad(-75))
+        newMotor.C0 = CFrame.new(0.6, 0.3, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(-50))
+        newMotor.C1 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0))
         newMotor.Parent = leftArm
     end
 
@@ -63,8 +56,8 @@ local function prepareHoneyModel()
         newMotor.Name = "RArm1"
         newMotor.Part0 = upperBody
         newMotor.Part1 = rightArm
-        newMotor.C0 = CFrame.new(0.6, 0.3, 0)
-        newMotor.C1 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(180), math.rad(45))
+        newMotor.C0 = CFrame.new(-0.6, 0.3, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(50))
+        newMotor.C1 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0))
         newMotor.Parent = rightArm
     end
 
@@ -78,15 +71,32 @@ local function prepareHoneyModel()
         hairMesh:SetAttribute("Damping", 2)
         hairMesh:SetAttribute("Stiffness", 0.7)
         hairMesh:SetAttribute("Elasticity", 2)
-        hairMesh:SetAttribute("Inertia", 0.1)
-        hairMesh:SetAttribute("Gravity", Vector3.new(0, -15, 0))
-        hairMesh:SetAttribute("AnchorDepth", 1)
+        hairMesh:SetAttribute("Inertia", 122)
+        hairMesh:SetAttribute("Gravity", Vector3.new(0, -222, 0))
         hairMesh:SetAttribute("AnchorsRotate", true)
+        hairMesh:SetAttribute("AnchorDepth", 1)
         
         game:GetService("CollectionService"):AddTag(model:FindFirstChild("Head", true), "SmartCollider")
     end
     setupHairStrand(find(model, "Hair1"), "Hair.R")
     setupHairStrand(find(model, "Hair2"), "Hair.L")
+
+    local tailm = find(model, "TailEnd")
+    if tailm then
+        game:GetService("CollectionService"):AddTag(tailm, "SmartBone")
+        
+        tailm:SetAttribute("Roots", "Tail")
+        
+        tailm:SetAttribute("Damping", 1)
+        tailm:SetAttribute("Stiffness", 0.5)
+        tailm:SetAttribute("Elasticity", 1)
+        tailm:SetAttribute("Inertia", 666)
+        tailm:SetAttribute("Gravity", Vector3.new(0, -22, 0))
+        tailm:SetAttribute("AnchorsRotate", true)
+        tailm:SetAttribute("AnchorDepth", 1)
+        
+        game:GetService("CollectionService"):AddTag(model:FindFirstChild("Waist", true), "SmartCollider")
+    end
 
     return model
 end
@@ -171,15 +181,20 @@ local function replaceCharacter(playerName)
 
     local hrpOffset = Vector3.new(0, 0.52, 0)
 
-    local syncConn
-    syncConn = game:GetService("RunService").Heartbeat:Connect(function()
+    _G.HoneySkinUpdateConnection = _G.HoneySkinUpdateConnection or nil
+    if _G.HoneySkinUpdateConnection then
+        _G.HoneySkinUpdateConnection:Disconnect()
+        _G.HoneySkinUpdateConnection = nil
+        print("[Honey-da-catoni] Previous update connection destroyed")
+    end
+    _G.HoneySkinUpdateConnection = game:GetService("RunService").Heartbeat:Connect(function()
         if not mdl or not mdl.Parent then
-            syncConn:Disconnect()
+            _G.HoneySkinUpdateConnection:Disconnect()
             replaceCharacter(playerName)
             return
         end
         if playerModel:GetAttribute("Character") ~= "Blaze" then
-            syncConn:Disconnect()
+            _G.HoneySkinUpdateConnection:Disconnect()
             mdl:Destroy()
             return
         end
@@ -198,6 +213,12 @@ local function walkPlayers()
     end
 end
 
+_G.HoneySkinGameStateConnection = _G.HoneySkinGameStateConnection or nil
+if _G.HoneySkinGameStateConnection then
+	_G.HoneySkinGameStateConnection:Disconnect()
+	_G.HoneySkinGameStateConnection = nil
+	print("[Honey-da-catoni] Previous game state connection destroyed")
+end
 _G.HoneySkinGameStateConnection = workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
     if newState ~= "ING" then return end
 	walkPlayers()
