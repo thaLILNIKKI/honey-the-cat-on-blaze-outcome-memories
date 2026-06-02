@@ -19,23 +19,74 @@ local function prepareHoneyModel()
     end
 
     local function find(obj, name) return obj:FindFirstChild(name, true) end
-    local function rename(obj, newName) if obj and obj.Name ~= newName then obj.Name = newName end end
-	
-    local hrp = find(model, "HumanoidRootPart")
-	hrp.CFrame = hrp.CFrame + Vector3.new(0, 0.52, 0)
+    local function rename(oldName, newName)
+        local obj = find(model, oldName)
+        while obj do
+            print("renaming: "..obj.Name.." -> "..newName.." //"..obj.ClassName)
+            obj.Name = newName
+            obj = find(model, oldName)
+        end 
+    end
 
-    rename(find(model, "UpperBody"), "MainBody")
-    rename(find(model, "RightShoulderPad"), "RArm1")
-    rename(find(model, "RArm4"), "RArm2")
-    rename(find(model, "LeftShoulderPad"), "LArm1")
-    rename(find(model, "LArm4"), "LArm2")
-    rename(find(model, "LFoot1"), "LLeg1")
-    rename(find(model, "LFoot2"), "LLeg2")
-    rename(find(model, "LFoot3"), "LLeg3")
+    rename("UpperBody", "MainBody")
+    rename("RightShoulderPad", "RArm1")
+    rename("RArm4", "RArm2")
+    rename("LeftShoulderPad", "LArm1")
+    rename("LArm4", "LArm2")
+    rename("LFoot1", "LLeg1")
+    rename("LFoot2", "LLeg2")
+    rename("LFoot3", "LLeg3")
 
     for _, part in ipairs(model:GetDescendants()) do
         if part:IsA("BasePart") then part.CanCollide = false end
+        if part:IsA("Motor6D") and (part.Name == "RArm1" or part.Name == "LArm1") then
+            part:Destroy()
+        end
     end
+
+    local upperBody = find(model, "MainBody")
+    local leftArm = find(model, "LArm1")
+    local rightArm = find(model, "RArm1")
+
+    if upperBody and leftArm then
+        local newMotor = Instance.new("Motor6D")
+        newMotor.Name = "LArm1"
+        newMotor.Part0 = upperBody
+        newMotor.Part1 = leftArm
+        newMotor.C0 = CFrame.new(-0.6, 0.3, 0)
+        newMotor.C1 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(180), math.rad(-75))
+        newMotor.Parent = leftArm
+    end
+
+    if upperBody and rightArm then
+        local newMotor = Instance.new("Motor6D")
+        newMotor.Name = "RArm1"
+        newMotor.Part0 = upperBody
+        newMotor.Part1 = rightArm
+        newMotor.C0 = CFrame.new(0.6, 0.3, 0)
+        newMotor.C1 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(180), math.rad(45))
+        newMotor.Parent = rightArm
+    end
+
+    local function setupHairStrand(hairMesh, boneRootName)
+        if not hairMesh or not hairMesh:IsA("MeshPart") then return end
+        
+        game:GetService("CollectionService"):AddTag(hairMesh, "SmartBone")
+        
+        hairMesh:SetAttribute("Roots", boneRootName)
+        
+        hairMesh:SetAttribute("Damping", 2)
+        hairMesh:SetAttribute("Stiffness", 0.7)
+        hairMesh:SetAttribute("Elasticity", 2)
+        hairMesh:SetAttribute("Inertia", 0.1)
+        hairMesh:SetAttribute("Gravity", Vector3.new(0, -15, 0))
+        hairMesh:SetAttribute("AnchorDepth", 1)
+        hairMesh:SetAttribute("AnchorsRotate", true)
+        
+        game:GetService("CollectionService"):AddTag(model:FindFirstChild("Head", true), "SmartCollider")
+    end
+    setupHairStrand(find(model, "Hair1"), "Hair.R")
+    setupHairStrand(find(model, "Hair2"), "Hair.L")
 
     return model
 end
@@ -49,6 +100,7 @@ if not skins then warn("Skins folder not found") return end
 
 local oldDefault = skins:FindFirstChild("_OLD", true)
 if oldDefault then
+    warn(oldDefault:GetFullName())
     warn("Restoring original Blaze skin")
     local currentDefault = skins:FindFirstChild("Default", true)
     if currentDefault then currentDefault:Destroy() end
