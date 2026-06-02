@@ -183,20 +183,22 @@ local function replaceCharacter(playerName)
 
     local hrpOffset = Vector3.new(0, 0.52, 0)
 
-    _G.HoneySkinUpdateConnection = _G.HoneySkinUpdateConnection or nil
-    if _G.HoneySkinUpdateConnection then
-        _G.HoneySkinUpdateConnection:Disconnect()
-        _G.HoneySkinUpdateConnection = nil
+    _G.HoneyBlazeSkinUpdateConnection = _G.HoneyBlazeSkinUpdateConnection or nil
+    if _G.HoneyBlazeSkinUpdateConnection then
+        _G.HoneyBlazeSkinUpdateConnection:Disconnect()
+        _G.HoneyBlazeSkinUpdateConnection = nil
         print("[Honey-da-catoni] Previous update connection destroyed")
     end
-    _G.HoneySkinUpdateConnection = game:GetService("RunService").Heartbeat:Connect(function()
+    _G.HoneyBlazeSkinUpdateConnection = game:GetService("RunService").Heartbeat:Connect(function()
         if not mdl or not mdl.Parent then
-            _G.HoneySkinUpdateConnection:Disconnect()
+			_G.HoneyBlazeSkinUpdateConnection:Disconnect()
+        	_G.HoneyBlazeSkinUpdateConnection = nil
             replaceCharacter(playerName)
             return
         end
         if playerModel:GetAttribute("Character") ~= "Blaze" then
-            _G.HoneySkinUpdateConnection:Disconnect()
+			_G.HoneyBlazeSkinUpdateConnection:Disconnect()
+        	_G.HoneyBlazeSkinUpdateConnection = nil
             mdl:Destroy()
             return
         end
@@ -215,13 +217,13 @@ local function walkPlayers()
     end
 end
 
-_G.HoneySkinGameStateConnection = _G.HoneySkinGameStateConnection or nil
-if _G.HoneySkinGameStateConnection then
-	_G.HoneySkinGameStateConnection:Disconnect()
-	_G.HoneySkinGameStateConnection = nil
+_G.HoneyBlazeSkinGameStateConnection = _G.HoneyBlazeSkinGameStateConnection or nil
+if _G.HoneyBlazeSkinGameStateConnection then
+	_G.HoneyBlazeSkinGameStateConnection:Disconnect()
+	_G.HoneyBlazeSkinGameStateConnection = nil
 	print("[Honey-da-catoni] Previous game state connection destroyed")
 end
-_G.HoneySkinGameStateConnection = workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
+_G.HoneyBlazeSkinGameStateConnection = workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
     if newState ~= "ING" then return end
 	walkPlayers()
 end)
