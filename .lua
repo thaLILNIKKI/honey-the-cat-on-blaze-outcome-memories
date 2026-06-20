@@ -2,35 +2,62 @@ print("[Honey-da-catoni] Now loading... Made by lil2kki <3")
 print("[Honey-da-catoni] Model used: https://create.roblox.com/store/asset/96857029798216")
 print("[Honey-da-catoni] Original script (where i took asset id): https://scriptblox.com/script/Outcome-Memories-v0.2-HONEY-da-cat-honey-honey-da-cat-FOR-blAZE-153452")
 
-local honeyAssetId = "rbxassetid://96857029798216"
-local honeyModel = game:GetObjects(honeyAssetId)[1]
-if not honeyModel then warn("Failed to load Honey model from asset") return end
+-- idk if thats helps
+local function makeWeakRef(obj) return setmetatable({obj = obj}, {__mode = "v"}) end
 
-local function prepareHoneyModel()
-    local model = honeyModel:Clone()
-	
-    for _, v in ipairs(model:GetDescendants()) do
-        if v:IsA("Humanoid") then v:Destroy() end
+-- MODEL SETUP IN ReplicatedStorage (for UI and overlay ref)
+
+    -- tar
+    local tar = game:GetService("ReplicatedStorage")
+    tar = tar:FindFirstChild("Characters", true)
+    tar = tar:FindFirstChild("Blaze", true)
+    tar = tar:FindFirstChild("Skins", true)
+
+    local OLD_THERE_ALR = tar:FindFirstChild("_OLD", true)
+    if OLD_THERE_ALR then
+        warn("[Honey-da-catoni] Restoring original skin")
+        tar:FindFirstChild("Default", true):Destroy()
+        OLD_THERE_ALR.Name = "Default"
     end
 
-    local function find(obj, name) return obj:FindFirstChild(name, true) end
+    tar = tar:FindFirstChild("Default", true)
+
+    -- src
+    local src = game:GetObjects("rbxassetid://96857029798216")[1]
+
+    -- model setup
+    local model = src:Clone()
+
+    src:Destroy()
+
+    model.Name = tar.Name
+    model.Parent = tar.Parent
+
+    tar.Name = "_OLD"
+
+    local function find(name) return model:FindFirstChild(name, true) end
+
+    -- rename parts
     local function rename(oldName, newName)
-        local obj = find(model, oldName)
+        local obj = find(oldName)
         while obj do
-            print("renaming: "..obj.Name.." -> "..newName.." //"..obj.ClassName)
+            -- print("renaming: "..obj.Name.." -> "..newName.." //"..obj.ClassName)
             obj.Name = newName
-            obj = find(model, oldName)
+            obj:SetAttribute("rename_oldName", oldName)
+            obj:SetAttribute("rename_newName", newName)
+            obj = find(oldName)
         end 
     end
-
-    rename("UpperBody", "MainBody")
-    rename("RightShoulderPad", "RArm1")
-    rename("RArm4", "RArm2")
-    rename("LeftShoulderPad", "LArm1")
-    rename("LArm4", "LArm2")
-    rename("LFoot1", "LLeg1")
-    rename("LFoot2", "LLeg2")
-    rename("LFoot3", "LLeg3")
+        rename("Torso", "MainBody")
+        rename("UpperBody", "MainBody")
+        rename("RightShoulderPad", "RArm1")
+        rename("RArm4", "RArm2")
+        rename("LeftShoulderPad", "LArm1")
+        rename("LArm4", "LArm2")
+        rename("LFoot1", "LLeg1")
+        rename("LFoot2", "LLeg2")
+        rename("LFoot3", "LLeg3")
+    --
 
     for _, part in ipairs(model:GetDescendants()) do
         if part:IsA("BasePart") then part.CanCollide = false end
@@ -39,9 +66,10 @@ local function prepareHoneyModel()
         end
     end
 
-    local upperBody = find(model, "MainBody")
-    local leftArm = find(model, "LArm1")
-    local rightArm = find(model, "RArm1")
+
+    local upperBody = find("MainBody")
+    local leftArm = find("LArm1")
+    local rightArm = find("RArm1")
 
     if upperBody and leftArm then
         local newMotor = Instance.new("Motor6D")
@@ -80,10 +108,10 @@ local function prepareHoneyModel()
         
         game:GetService("CollectionService"):AddTag(model:FindFirstChild("Head", true), "SmartCollider")
     end
-    setupHairStrand(find(model, "Hair1"), "Hair.R")
-    setupHairStrand(find(model, "Hair2"), "Hair.L")
+    setupHairStrand(find("Hair1"), "Hair.R")
+    setupHairStrand(find("Hair2"), "Hair.L")
 
-    local tailm = find(model, "TailEnd")
+    local tailm = find("TailEnd")
     if tailm then
         game:GetService("CollectionService"):AddTag(tailm, "SmartBone")
         
@@ -100,134 +128,149 @@ local function prepareHoneyModel()
         game:GetService("CollectionService"):AddTag(model:FindFirstChild("Waist", true), "SmartCollider")
     end
 
-    return model
-end
+    print("[Honey-da-catoni] Model setup done...")
+--
 
-local blazePath = game:GetService("ReplicatedStorage"):FindFirstChild("Characters", true)
-if not blazePath then warn("Characters folder not found") return end
-blazePath = blazePath:FindFirstChild("Blaze", true)
-if not blazePath then warn("Blaze folder not found") return end
-local skins = blazePath:FindFirstChild("Skins", true)
-if not skins then warn("Skins folder not found") return end
+-- FUCKING SERVER SIDED PLAYER BUILD HOLY HELL
+    local function updatePlayer(name)
 
-local oldDefault = skins:FindFirstChild("_OLD", true)
-if oldDefault then
-    warn(oldDefault:GetFullName())
-    warn("Restoring original Blaze skin")
-    local currentDefault = skins:FindFirstChild("Default", true)
-    if currentDefault then currentDefault:Destroy() end
-    oldDefault.Name = "Default"
-end
+        local player = workspace.Players:FindFirstChild(name)
+        if not player then return end
 
-local originalDefault = skins:FindFirstChild("Default", true)
-if not originalDefault then warn("Default skin for Blaze not found") return end
+        if player:GetAttribute("Character") ~= "Blaze" then return end
 
-local honeySkin = prepareHoneyModel()
-honeySkin.Name = "Default"
-honeySkin.Parent = skins
+        print("[Honey-da-catoni] Updating model for " .. player.Name .. "...")
 
-for _, obj in ipairs(originalDefault:GetChildren()) do
-    if not honeySkin:FindFirstChild(obj.Name) then
-        local cloned = obj:Clone()
-        cloned.Parent = honeySkin
-        if cloned:IsA("BasePart") then
-			cloned.CanCollide = false
-            cloned.Transparency = 1
-            cloned.LocalTransparencyModifier = 1
-    		cloned.Size = Vector3.new(0, 0, 0)
-        	cloned.CFrame = CFrame.new(0, 0, 0)
+        if player:FindFirstChild("OverlayModel") then return end
+        
+        local hrp = player:FindFirstChild("HumanoidRootPart", true)
+        if not hrp then return end
+
+        local ogHead = player:FindFirstChildOfClass("Motor6D", true)
+
+        for _, v in ipairs(player:GetDescendants()) do
+            if v:IsA("Motor6D") and v.Name == "Head" then ogHead = v end
+            if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                v.Transparency = 1
+                v.LocalTransparencyModifier = 1
+            end
+        end
+        
+        local src = game:GetService("ReplicatedStorage")
+        src = src:FindFirstChild("Characters", true)
+        src = src:FindFirstChild("Blaze", true)
+        src = src:FindFirstChild("Skins", true)
+        src = src:FindFirstChild("Default", true)
+
+        local mdl = src:Clone()
+        mdl.Parent = player
+        mdl.Name = "OverlayModel"
+
+        local newHrp = mdl:FindFirstChild("HumanoidRootPart", true)
+        if not newHrp then mdl:Destroy() return end
+
+        local myHead = mdl:FindFirstChildOfClass("Motor6D", true)
+
+        for _, v in ipairs(mdl:GetDescendants()) do
+            if v:IsA("Motor6D") and v.Name == "Head" then myHead = v end
+            if v:IsA("Humanoid") then v:Destroy() end
+            if v:IsA("Animator") then v:Destroy() end
+            if v:IsA("BasePart") then
+                v.CanCollide = false
+            end
+        end
+
+        local mdlRef = makeWeakRef(mdl)
+        local hrpRef = makeWeakRef(hrp)
+        local newHrpRef = makeWeakRef(newHrp)
+        local myHeadRef = makeWeakRef(myHead)
+        local ogHeadRef = makeWeakRef(ogHead)
+        local playerRef = makeWeakRef(player)
+
+        coroutine.wrap(function()
+        
+            while true do
+                local mdlCheck = mdlRef.obj
+                local hrpCheck = hrpRef.obj
+                local newHrpCheck = newHrpRef.obj
+                local myHeadCheck = myHeadRef.obj
+                local ogHeadCheck = ogHeadRef.obj
+                local playerCheck = playerRef.obj
+
+                if not mdlCheck or not mdlCheck.Parent or not hrpCheck or not newHrpCheck then
+                    warn("[Honey-da-catoni] Player model fucked idk")
+                    break
+                end
+
+                newHrpCheck:PivotTo(hrpCheck.CFrame * CFrame.new(0,  0.52, 0))
+                myHeadCheck.C0 = CFrame.new(myHeadCheck.C0.Position) * (ogHeadCheck.C0 - ogHeadCheck.C0.Position)
+
+                task.wait() -- heartbeat mayb
+            end
+
+            warn("[Honey-da-catoni] Model destroyed, trying to restart overlay")
+            updatePlayer(name)
+
+        end)()
+
+    end
+
+    local function tryUpdatePlayerModel(model)
+        if model:GetAttribute("Character") ~= "Blaze" then return end
+        updatePlayer(model.Name)
+    end
+--
+
+-- all players
+    local function walkPlayers()
+        task.wait(1)
+        for _, model in ipairs(workspace.Players:GetChildren()) do
+            if not model:IsA("Model") then continue end
+            if model.Name == game.Players.LocalPlayer.Name then continue end
+            tryUpdatePlayerModel(model)
         end
     end
-end
 
-originalDefault.Name = "_OLD"
+    walkPlayers()
 
-print("Blaze skin replaced with Honey (Default)")
-
-local function replaceCharacter(playerName)
-    local playerModel = workspace:FindFirstChild("Players", true):FindFirstChild(playerName)
-    if not playerModel then return end
-
-    if playerModel:GetAttribute("Character") ~= "Blaze" then return end
-
-    local honeySkinSrc = game:GetService("ReplicatedStorage"):FindFirstChild("Characters", true)
-        :FindFirstChild("Blaze", true)
-        :FindFirstChild("Skins", true)
-        :FindFirstChild("Default", true)
-    if not honeySkinSrc then
-        warn("Honey skin not found in ReplicatedStorage")
-        return
+    _G.HoneyBlazeSkinGameStateConn = _G.HoneyBlazeSkinGameStateConn or nil
+    if _G.HoneyBlazeSkinGameStateConn then
+        _G.HoneyBlazeSkinGameStateConn:Disconnect()
+        _G.HoneyBlazeSkinGameStateConn = nil
+        print("[Honey-da-catoni] Previous game state connection destroyed")
     end
+    _G.HoneyBlazeSkinGameStateConn = workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
+        if newState == "ING" then walkPlayers() end
+    end)
+--
 
-	for _, v in ipairs(playerModel:GetDescendants()) do if v:IsA("BasePart") then
-		v.Transparency = 1
-	end end
-
-    local hrp = playerModel:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
-
-    local mdl = honeySkinSrc:Clone()
-    mdl.Parent = playerModel
-
-    for _, v in ipairs(mdl:GetDescendants()) do
-        if v:IsA("Humanoid") then
-            v:Destroy()
-        elseif v:IsA("BasePart") then
-            v.CanCollide = false
-            v.Anchored = false
-        end
+-- my char
+    _G.HoneyBlazeSkinCharacterConn = _G.HoneyBlazeSkinCharacterConn or nil
+    if _G.HoneyBlazeSkinCharacterConn then
+        _G.HoneyBlazeSkinCharacterConn:Disconnect()
+        _G.HoneyBlazeSkinCharacterConn = nil
+        print("[Honey-da-catoni] Previous game сharacter added connection destroyed")
     end
-
-    local newHrp = mdl:FindFirstChild("HumanoidRootPart", true)
-    if not newHrp then mdl:Destroy() return end
-
-    local hrpOffset = Vector3.new(0, 0.52, 0)
-
-    _G.HoneyBlazeSkinUpdateConnection = _G.HoneyBlazeSkinUpdateConnection or nil
-    if _G.HoneyBlazeSkinUpdateConnection then
-        _G.HoneyBlazeSkinUpdateConnection:Disconnect()
-        _G.HoneyBlazeSkinUpdateConnection = nil
-        print("[Honey-da-catoni] Previous update connection destroyed")
-    end
-    _G.HoneyBlazeSkinUpdateConnection = game:GetService("RunService").Heartbeat:Connect(function()
-        if not mdl or not mdl.Parent then
-			_G.HoneyBlazeSkinUpdateConnection:Disconnect()
-        	_G.HoneyBlazeSkinUpdateConnection = nil
-            replaceCharacter(playerName)
-            return
-        end
-        if playerModel:GetAttribute("Character") ~= "Blaze" then
-			_G.HoneyBlazeSkinUpdateConnection:Disconnect()
-        	_G.HoneyBlazeSkinUpdateConnection = nil
-            mdl:Destroy()
-            return
-        end
-        newHrp.CFrame = hrp.CFrame + hrpOffset
+    _G.HoneyBlazeSkinCharacterConn = game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+	    if character:GetAttribute("Character") ~= "Blaze" then return end
+        -- wait player server build
+        task.wait(3)
+        -- overlay setup
+        tryUpdatePlayerModel(character)
     end)
 
-    return playerModel
+    tryUpdatePlayerModel(game.Players.LocalPlayer.Character)
+--
+
+print("[Honey-da-catoni] Players scanned, game state and your char being listened.")
+
+local function loadCustomAsset(url, filename)
+    if not isfile(filename) then writefile(filename, game:HttpGet(url)) end
+    return getcustomasset(filename)
 end
+game:GetService("ReplicatedStorage"):FindFirstChild("BlazeSolo", true).SoundId = loadCustomAsset(
+    "https://github.com/thaLILNIKKI/honey-the-cat-on-blaze-outcome-memories/releases/download/assets/BlazeSolo.mp3",
+    "cache/BlazeSolo.mp3"
+)
 
-local function walkPlayers()
-    task.wait(1)
-    for _, model in ipairs(workspace:WaitForChild("Players"):GetChildren()) do
-    	if not model:IsA("Model") then continue end
-    	if model:GetAttribute("Character") ~= "Blaze" then continue end
-    	replaceCharacter(model.Name)
-    end
-end
-
-_G.HoneyBlazeSkinGameStateConnection = _G.HoneyBlazeSkinGameStateConnection or nil
-if _G.HoneyBlazeSkinGameStateConnection then
-	_G.HoneyBlazeSkinGameStateConnection:Disconnect()
-	_G.HoneyBlazeSkinGameStateConnection = nil
-	print("[Honey-da-catoni] Previous game state connection destroyed")
-end
-_G.HoneyBlazeSkinGameStateConnection = workspace:WaitForChild("GameProperties"):WaitForChild("State").Changed:Connect(function(newState)
-    if newState ~= "ING" then return end
-	walkPlayers()
-end)
-
-walkPlayers()
-
-print("[Honey-da-catoni] ready")
+print("[Honey-da-catoni] Ready!")
