@@ -269,8 +269,8 @@ local function loadCustomAsset(url, filename)
     return getcustomasset(filename)
 end
 game:GetService("ReplicatedStorage"):FindFirstChild("BlazeSolo", true).SoundId = loadCustomAsset(
-    "https://github.com/thaLILNIKKI/honey-the-cat-on-blaze-outcome-memories/releases/download/assets/BlazeSolo.mp3",
-    "cache/BlazeSolo.mp3"
+    "https://github.com/thaLILNIKKI/honey-the-cat-on-blaze-outcome-memories/releases/download/assets/HoneySolo.mp3",
+    "cache/HoneySolo.mp3"
 )
 
 print("[Honey-da-catoni] Ready!")
