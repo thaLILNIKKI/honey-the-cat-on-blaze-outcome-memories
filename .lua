@@ -59,15 +59,18 @@ local function makeWeakRef(obj) return setmetatable({obj = obj}, {__mode = "v"})
         rename("LFoot3", "LLeg3")
     --
 
+    local upperBody = find("MainBody")
+
     for _, part in ipairs(model:GetDescendants()) do
-        if part:IsA("BasePart") then part.CanCollide = false end
+        if part:IsA("BasePart") then 
+            part.CanCollide = false 
+            if part.Name == "MainBody" then upperBody = part end
+        end
         if part:IsA("Motor6D") and (part.Name == "RArm1" or part.Name == "LArm1") then
             part:Destroy()
         end
     end
 
-
-    local upperBody = find("MainBody")
     local leftArm = find("LArm1")
     local rightArm = find("RArm1")
 
